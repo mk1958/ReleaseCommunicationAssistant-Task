@@ -1,0 +1,1017 @@
+﻿@model IEnumerable<ReleaseCommunicationAssistant_Task.Models.GeneratedStatements>
+
+@{
+    ViewData["Title"] = "Generated Statements";
+}
+
+<style>
+
+    * {
+        box-sizing: border-box;
+    }
+
+    /* ==============================
+               PAGE BACKGROUND
+               ============================== */
+
+    body {
+        background: radial-gradient(circle at 0% 0%, rgba(14, 165, 233, .18), transparent 28%), radial-gradient(circle at 100% 20%, rgba(168, 85, 247, .18), transparent 30%), radial-gradient(circle at 50% 100%, rgba(20, 184, 166, .12), transparent 30%), #07111f;
+        min-height: 100vh;
+    }
+
+    .page-container {
+        padding: 35px;
+        min-height: calc(100vh - 70px);
+    }
+
+    /* ==============================
+               HEADER
+               ============================== */
+
+    .page-header {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient( 135deg, #0f172a, #172554 45%, #312e81 );
+        color: white;
+        padding: 32px 38px;
+        border-radius: 22px;
+        margin-bottom: 25px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, .25), inset 0 1px 0 rgba(255,255,255,.08);
+        border: 1px solid rgba(255,255,255,.08);
+    }
+
+        .page-header::before {
+            content: "";
+            position: absolute;
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            background: rgba(56, 189, 248, .15);
+            right: -70px;
+            top: -100px;
+            filter: blur(5px);
+        }
+
+        .page-header::after {
+            content: "";
+            position: absolute;
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background: rgba(168, 85, 247, .12);
+            right: 180px;
+            bottom: -90px;
+            filter: blur(3px);
+        }
+
+    .header-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .header-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: rgba(56, 189, 248, .12);
+        border: 1px solid rgba(125, 211, 252, .25);
+        color: #7dd3fc;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        margin-bottom: 12px;
+    }
+
+    .page-header h1 {
+        margin: 0;
+        font-size: 31px;
+        font-weight: 800;
+        letter-spacing: -.6px;
+    }
+
+    .page-header p {
+        margin: 9px 0 0;
+        color: #cbd5e1;
+        font-size: 14px;
+    }
+
+    /* ==============================
+               SUMMARY CARDS
+               ============================== */
+
+    .summary-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px;
+        margin-bottom: 25px;
+    }
+
+    .summary-card {
+        position: relative;
+        overflow: hidden;
+        background: rgba(15, 23, 42, .82);
+        padding: 21px;
+        border-radius: 17px;
+        border: 1px solid rgba(148, 163, 184, .14);
+        box-shadow: 0 12px 30px rgba(0,0,0,.20);
+        transition: all .25s ease;
+    }
+
+        .summary-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(56,189,248,.30);
+            box-shadow: 0 18px 35px rgba(0,0,0,.28);
+        }
+
+        .summary-card::after {
+            content: "";
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            right: -25px;
+            bottom: -25px;
+            background: rgba(56,189,248,.07);
+        }
+
+    .summary-label {
+        color: #94a3b8;
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+    }
+
+    .summary-value {
+        display: block;
+        margin-top: 7px;
+        font-size: 28px;
+        font-weight: 800;
+        color: #f8fafc;
+    }
+
+    /* ==============================
+               TOOLBAR
+               ============================== */
+
+    .toolbar {
+        background: rgba(15, 23, 42, .85);
+        padding: 18px 22px;
+        border-radius: 16px;
+        margin-bottom: 20px;
+        border: 1px solid rgba(148,163,184,.14);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        box-shadow: 0 10px 25px rgba(0,0,0,.18);
+    }
+
+    .toolbar-title {
+        font-size: 16px;
+        font-weight: 750;
+        color: #f8fafc;
+    }
+
+    .toolbar-subtitle {
+        font-size: 12px;
+        color: #94a3b8;
+        margin-top: 3px;
+    }
+
+    .create-btn {
+        display: inline-block;
+        background: linear-gradient( 135deg, #0284c7, #4f46e5 );
+        color: white !important;
+        padding: 10px 18px;
+        border-radius: 9px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 13px;
+        transition: all .25s ease;
+        box-shadow: 0 8px 18px rgba(37,99,235,.22);
+    }
+
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(37,99,235,.32);
+        }
+
+    /* ==============================
+               TABLE
+               ============================== */
+
+    .table-card {
+        background: rgba(15, 23, 42, .88);
+        border: 1px solid rgba(148,163,184,.14);
+        border-radius: 19px;
+        box-shadow: 0 15px 40px rgba(0,0,0,.25);
+        overflow: hidden;
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+        width: 100%;
+    }
+
+    .release-table {
+        width: 100%;
+        min-width: 1350px;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        .release-table thead {
+            background: rgba(30,41,59,.95);
+        }
+
+        .release-table th {
+            padding: 15px 16px;
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            white-space: nowrap;
+            border-bottom: 1px solid rgba(148,163,184,.14);
+        }
+
+        .release-table td {
+            padding: 16px;
+            font-size: 13px;
+            color: #cbd5e1;
+            border-bottom: 1px solid rgba(148,163,184,.08);
+            vertical-align: middle;
+        }
+
+        .release-table tbody tr {
+            transition: all .18s ease;
+        }
+
+            .release-table tbody tr:hover {
+                background: rgba(56,189,248,.045);
+            }
+
+            .release-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+    /* ==============================
+               STATEMENT
+               ============================== */
+
+    .statement-code {
+        display: inline-block;
+        background: rgba(99,102,241,.14);
+        color: #a5b4fc;
+        padding: 5px 9px;
+        border-radius: 6px;
+        font-family: Consolas, monospace;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    .statement-content {
+        min-width: 280px;
+        max-width: 400px;
+    }
+
+    .statement-title {
+        font-weight: 600;
+        margin-bottom: 6px;
+    }
+
+    .statement-description {
+        color: #94a3b8;
+        line-height: 1.5;
+    }
+
+    /* ==============================
+               BADGES
+               ============================== */
+
+    .badge {
+        display: inline-flex;
+        align-items: center;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .badge-technical {
+        background: rgba(14,165,233,.12);
+        color: #38bdf8;
+    }
+
+    .badge-stakeholder {
+        background: rgba(168,85,247,.12);
+        color: #c084fc;
+    }
+
+    .badge-high {
+        background: rgba(239,68,68,.12);
+        color: #f87171;
+    }
+
+    .badge-medium {
+        background: rgba(245,158,11,.12);
+        color: #fbbf24;
+    }
+
+    .badge-low {
+        background: rgba(34,197,94,.12);
+        color: #4ade80;
+    }
+
+    .badge-supported {
+        background: rgba(34,197,94,.12);
+        color: #4ade80;
+    }
+
+    .badge-unsupported {
+        background: rgba(239,68,68,.12);
+        color: #f87171;
+    }
+
+    .badge-current {
+        background: rgba(34,197,94,.12);
+        color: #4ade80;
+    }
+
+    .badge-stale {
+        background: rgba(245,158,11,.12);
+        color: #fbbf24;
+    }
+
+    .badge-draft {
+        background: rgba(99,102,241,.12);
+        color: #a5b4fc;
+    }
+
+    .badge-edited {
+        background: rgba(14,165,233,.12);
+        color: #38bdf8;
+    }
+
+    .badge-approved {
+        background: rgba(34,197,94,.12);
+        color: #4ade80;
+    }
+
+    .badge-rejected {
+        background: rgba(239,68,68,.12);
+        color: #f87171;
+    }
+
+    /* ==============================
+               OTHER CELLS
+               ============================== */
+
+    .evidence {
+        max-width: 180px;
+        color: #94a3b8;
+        font-size: 12px;
+    }
+
+    .release-number {
+        font-weight: 700;
+        color: #60a5fa;
+    }
+
+    .date {
+        white-space: nowrap;
+        color: #64748b;
+        font-size: 11px;
+    }
+
+    /* ==============================
+               VERTICAL ACTION BUTTONS
+               ============================== */
+
+    .actions {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 7px;
+        width: 92px;
+    }
+
+    .action-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        border-radius: 7px;
+        padding: 8px 10px;
+        font-size: 11px;
+        font-weight: 700;
+        text-decoration: none;
+        transition: all .2s ease;
+    }
+
+    .edit-btn {
+        background: rgba(59,130,246,.12);
+        color: #60a5fa;
+        border: 1px solid rgba(59,130,246,.15);
+    }
+
+        .edit-btn:hover {
+            background: rgba(59,130,246,.22);
+            color: #93c5fd;
+            transform: translateX(3px);
+        }
+
+    .details-btn {
+        background: rgba(34,197,94,.10);
+        color: #4ade80;
+        border: 1px solid rgba(34,197,94,.15);
+    }
+
+        .details-btn:hover {
+            background: rgba(34,197,94,.20);
+            color: #86efac;
+            transform: translateX(3px);
+        }
+
+    .delete-btn {
+        background: rgba(239,68,68,.10);
+        color: #f87171;
+        border: 1px solid rgba(239,68,68,.15);
+    }
+
+        .delete-btn:hover {
+            background: rgba(239,68,68,.20);
+            color: #fca5a5;
+            transform: translateX(3px);
+        }
+
+    /* ==============================
+               EMPTY STATE
+               ============================== */
+
+    .empty-state {
+        text-align: center;
+        padding: 70px 20px;
+        color: #94a3b8;
+    }
+
+        .empty-state h3 {
+            color: #f8fafc;
+            margin-bottom: 8px;
+        }
+
+    /* ==============================
+               RESPONSIVE
+               ============================== */
+
+    @@media (max-width: 1000px) {
+
+        .summary-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .page-container {
+            padding: 18px;
+        }
+    }
+
+    @@media (max-width: 600px) {
+
+        .summary-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .toolbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .page-header h1 {
+            font-size: 24px;
+        }
+    }
+
+</style>
+
+
+<div class="page-container">
+
+    <!-- =========================
+         HEADER
+         ========================= -->
+
+    <div class="page-header">
+
+        <div class="header-content">
+
+            <span class="header-badge">
+                AI Release Management
+            </span>
+
+            <h1>
+                Release Communication Assistant
+            </h1>
+
+            <p>
+                Manage, review and approve AI-generated release communication statements.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         SUMMARY
+         ========================= -->
+
+    <div class="summary-grid">
+
+        <div class="summary-card">
+
+            <span class="summary-label">
+                Total Statements
+            </span>
+
+            <span class="summary-value">
+                @Model.Count()
+            </span>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <span class="summary-label">
+                Supported
+            </span>
+
+            <span class="summary-value">
+                @Model.Count(x => x.IsSupported)
+            </span>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <span class="summary-label">
+                Unsupported
+            </span>
+
+            <span class="summary-value">
+                @Model.Count(x => !x.IsSupported)
+            </span>
+
+        </div>
+
+
+        <div class="summary-card">
+
+            <span class="summary-label">
+                Stale Statements
+            </span>
+
+            <span class="summary-value">
+                @Model.Count(x => x.IsStale)
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <!-- =========================
+         TOOLBAR
+         ========================= -->
+
+    <div class="toolbar">
+
+        <div>
+
+            <div class="toolbar-title">
+                Generated Release Statements
+            </div>
+
+            <div class="toolbar-subtitle">
+                Review AI-generated content before final approval.
+            </div>
+
+        </div>
+
+
+        <a asp-action="Create"
+           class="create-btn">
+
+            + Create Statement
+
+        </a>
+
+    </div>
+
+
+    <!-- =========================
+         TABLE
+         ========================= -->
+
+    <div class="table-card">
+
+        <div class="table-scroll">
+
+            @if (Model != null && Model.Any())
+            {
+                <table class="release-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>Release</th>
+
+                            <th>Statement</th>
+
+                            <th>Audience</th>
+
+                            <th>Type</th>
+
+                            <th>Impact</th>
+
+                            <th>Evidence</th>
+
+                            <th>Support</th>
+
+                            <th>Freshness</th>
+
+                            <th>Status</th>
+
+                            <th>AI Model</th>
+
+                            <th>Created</th>
+
+                            <th>Actions</th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <!-- RELEASE -->
+
+                                <td>
+
+                                    <span class="release-number">
+
+                                        Release #@item.ReleaseId
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- STATEMENT -->
+
+                                <td>
+
+                                    <div class="statement-content">
+
+                                        <div class="statement-title">
+
+                                            <span class="statement-code">
+
+                                                @item.StatementCode
+
+                                            </span>
+
+                                        </div>
+
+                                        <div class="statement-description">
+
+                                            @item.StatementText
+
+                                        </div>
+
+                                        @if (TempData["SuccessMessage"] != null)
+                                        {
+                                            <div style="
+                                background:rgba(34,197,94,.10);
+                                color:#4ade80;
+                                border:1px solid rgba(34,197,94,.25);
+                                border-radius:8px;
+                                padding:12px 16px;
+                                margin-bottom:20px;">
+
+                                                ✓ @TempData["SuccessMessage"]
+
+                                            </div>
+                                        }
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- AUDIENCE -->
+
+                                <td>
+
+                                    @if (item.Audience == "Technical")
+                                    {
+                                        <span class="badge badge-technical">
+                                            Technical
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-stakeholder">
+                                            Stakeholder
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- TYPE -->
+
+                                <td>
+
+                                    @item.StatementType
+
+                                </td>
+
+
+                                <!-- IMPACT -->
+
+                                <td>
+
+                                    @if (item.ImpactLevel == "High")
+                                    {
+                                        <span class="badge badge-high">
+                                            High
+                                        </span>
+                                    }
+                                    else if (item.ImpactLevel == "Medium")
+                                    {
+                                        <span class="badge badge-medium">
+                                            Medium
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-low">
+                                            @item.ImpactLevel
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- EVIDENCE -->
+
+                                <td>
+
+                                    <div class="evidence">
+
+                                        @if (!string.IsNullOrWhiteSpace(item.EvidenceReferences))
+                                        {
+                                            @item.EvidenceReferences
+                                        }
+                                        else
+                                        {
+                                            <span>—</span>
+                                        }
+
+                                    </div>
+
+                                </td>
+
+
+                                <!-- SUPPORT -->
+
+                                <td>
+
+                                    @if (item.IsSupported)
+                                    {
+                                        <span class="badge badge-supported">
+                                            ✓ Supported
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-unsupported">
+                                            ✕ Unsupported
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- FRESHNESS -->
+
+                                <td>
+
+                                    @if (item.IsStale)
+                                    {
+                                        <span class="badge badge-stale">
+                                            ⚠ Stale
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-current">
+                                            ✓ Current
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- STATUS -->
+
+                                <td>
+
+                                    @if (item.Status == "Approved")
+                                    {
+                                        <span class="badge badge-approved">
+                                            Approved
+                                        </span>
+                                    }
+                                    else if (item.Status == "Rejected")
+                                    {
+                                        <span class="badge badge-rejected">
+                                            Rejected
+                                        </span>
+                                    }
+                                    else if (item.Status == "Edited")
+                                    {
+                                        <span class="badge badge-edited">
+                                            Edited
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-draft">
+                                            Draft
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- AI MODEL -->
+
+                                <td>
+
+                                    @if (!string.IsNullOrWhiteSpace(item.Aimodel))
+                                    {
+                                        @item.Aimodel
+                                    }
+                                    else
+                                    {
+                                        <span>—</span>
+                                    }
+
+                                </td>
+
+
+                                <!-- CREATED -->
+
+                                <td>
+
+                                    <span class="date">
+
+                                        @item.CreatedAt
+
+                                    </span>
+
+                                </td>
+
+
+                                <!-- ACTIONS -->
+
+                                <td>
+
+                                    <div class="actions">
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@item.GeneratedStatementId"
+                                           class="action-btn edit-btn">
+
+                                            ✎ Edit
+
+                                        </a>
+
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@item.GeneratedStatementId"
+                                           class="action-btn details-btn">
+
+                                            ◉ Details
+
+                                        </a>
+
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@item.GeneratedStatementId"
+                                           class="action-btn delete-btn">
+
+                                            × Delete
+
+                                        </a>
+
+
+                                        <a asp-controller="GeneratedStatements"
+                                           asp-action="Review"
+                                           asp-route-id="@item.GeneratedStatementId"
+                                           class="action-btn"
+                                           style="background:rgba(59,130,246,.10);
+                           color:#60a5fa;
+                           border:1px solid rgba(59,130,246,.20);">
+
+                                            🔍 Review
+
+                                            <a asp-controller="GeneratedStatements"
+                                               asp-action="QASupport"
+                                               asp-route-id="@item.GeneratedStatementId"
+                                               class="action-btn"
+                                               style="background:rgba(59,130,246,.10);
+                  color:#60a5fa;
+                  border:1px solid rgba(59,130,246,.20);">
+                                                🔍 QA Support
+                                            </a>
+
+                                        </a>
+
+
+                                        <!-- MARK STALE -->
+
+                                        <form asp-controller="GeneratedStatements"
+                                              asp-action="MarkStale"
+                                              method="post"
+                                              style="display:inline-block;">
+
+                                            @Html.AntiForgeryToken()
+
+                                            <input type="hidden"
+                                                   name="id"
+                                                   value="@item.GeneratedStatementId" />
+
+                                            <button type="submit"
+                                                    class="action-btn"
+                                                    style="background:rgba(245,158,11,.10);
+                                   color:#fbbf24;
+                                   border:1px solid rgba(245,158,11,.22);
+                                   cursor:pointer;">
+
+                                                ⚠ Mark Stale
+
+                                            </button>
+
+                                        </form>
+
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+            }
+            else
+            {
+                <div class="empty-state">
+
+                    <h3>
+                        No Generated Statements
+                    </h3>
+
+                    <p>
+                        No AI-generated release statements are available yet.
+                    </p>
+
+                    <a asp-action="Create"
+                       class="create-btn">
+
+                        + Create Statement
+
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

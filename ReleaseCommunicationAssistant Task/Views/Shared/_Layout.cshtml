@@ -1,0 +1,296 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>@ViewData["Title"] - Release Assistant</title>
+
+    <link rel="stylesheet"
+          href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+
+    <link rel="stylesheet"
+          href="~/css/site.css"
+          asp-append-version="true" />
+
+    <style>
+        html {
+            background: #080d1a;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: #080d1a;
+            color: #e5e7eb;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+
+        /* =========================
+                   NAVBAR
+                   ========================= */
+
+        .app-navbar {
+            background: #080d1a !important;
+            border-bottom: 1px solid #1e293b;
+            min-height: 68px;
+            box-shadow: 0 5px 25px rgba(0, 0, 0, 0.25);
+            position: relative;
+            z-index: 1000;
+        }
+
+        .app-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            color: #f8fafc !important;
+            font-weight: 700;
+            font-size: 20px;
+            letter-spacing: -0.3px;
+        }
+
+            .app-brand:hover {
+                color: #ffffff !important;
+            }
+
+        .brand-mark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 34px;
+            height: 34px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #2563eb, #7c3aed);
+            color: white;
+            font-size: 18px;
+            box-shadow: 0 8px 20px rgba(37, 99, 235, 0.25);
+        }
+
+        .brand-text {
+            white-space: nowrap;
+        }
+
+        .app-navbar .navbar-toggler {
+            border: 1px solid #334155;
+            background: #111827;
+        }
+
+        .app-navbar .navbar-toggler-icon {
+            filter: invert(1);
+        }
+
+        .app-navbar .nav-link {
+            color: #94a3b8 !important;
+            font-weight: 500;
+            font-size: 14px;
+            padding: 10px 13px !important;
+            margin-left: 3px;
+            border-radius: 8px;
+            transition: all 0.2s ease;
+        }
+
+            .app-navbar .nav-link:hover {
+                color: #ffffff !important;
+                background: #111827;
+            }
+
+            .app-navbar .nav-link.active {
+                color: #ffffff !important;
+                background: #172033;
+            }
+
+        /* =========================
+                   MAIN
+                   ========================= */
+
+        main {
+            min-height: calc(100vh - 130px);
+            background: #080d1a;
+        }
+
+        /* =========================
+                   FOOTER
+                   ========================= */
+
+        .app-footer {
+            border-top: 1px solid #1e293b;
+            background: #080d1a;
+            color: #64748b;
+            padding: 24px 20px;
+            text-align: center;
+            font-size: 13px;
+        }
+
+        .footer-title {
+            color: #94a3b8;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .footer-subtitle {
+            color: #64748b;
+        }
+
+        /* =========================
+                   RESPONSIVE
+                   ========================= */
+
+        @@media (max-width: 991px) {
+            .app-navbar .navbar-nav {
+                padding-top: 12px;
+                padding-bottom: 12px;
+            }
+
+            .app-navbar .nav-link {
+                margin-left: 0;
+            }
+
+            .brand-text {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- =========================
+         NAVIGATION
+         ========================= -->
+
+    <header>
+        <nav class="navbar navbar-expand-lg app-navbar">
+
+            <div class="container-fluid px-4">
+
+                <a class="app-brand"
+                   asp-controller="Home"
+                   asp-action="Index">
+
+                    <span class="brand-mark">✦</span>
+
+                    <span class="brand-text">
+                        Release Assistant
+                    </span>
+
+                </a>
+
+                <button class="navbar-toggler"
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target="#mainNavigation"
+                        aria-controls="mainNavigation"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation">
+
+                    <span class="navbar-toggler-icon"></span>
+
+                </button>
+
+                <div class="collapse navbar-collapse"
+                     id="mainNavigation">
+
+                    <ul class="navbar-nav ms-auto align-items-lg-center">
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Home"
+                               asp-action="Index">
+                                Dashboard
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Releases"
+                               asp-action="Index">
+                                Releases
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="ReleaseItems"
+                               asp-action="Index">
+                                Release Items
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="Qaevidences"
+                               asp-action="Index">
+                                QA Evidence
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="GeneratedStatements"
+                               asp-action="Index">
+                                Statements
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link"
+                               asp-controller="ReviewDecisions"
+                               asp-action="Index">
+                                Reviews
+                            </a>
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </nav>
+    </header>
+
+
+    <!-- =========================
+         PAGE CONTENT
+         ========================= -->
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+
+    <!-- =========================
+         FOOTER
+         ========================= -->
+
+    <footer class="app-footer">
+
+        <div class="footer-title">
+            Release Communication & Readiness Assistant
+        </div>
+
+        <div class="footer-subtitle">
+            Evidence-driven release communication ·
+            Human-reviewed AI workflow
+        </div>
+
+    </footer>
+
+
+    <!-- =========================
+         SCRIPTS
+         ========================= -->
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script src="~/js/site.js"
+            asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

@@ -1,0 +1,256 @@
+﻿@model ReleaseCommunicationAssistant_Task.Models.ReviewDecision
+
+@{
+    ViewData["Title"] = "Create Review Decision";
+}
+
+<style>
+    body {
+        background: #0b1020;
+        color: #e5e7eb;
+    }
+
+    .page-wrapper {
+        max-width: 900px;
+        margin: 50px auto;
+        padding: 20px;
+    }
+
+    .form-card {
+        background: #111827;
+        border: 1px solid #26324a;
+        border-radius: 18px;
+        padding: 35px;
+        box-shadow: 0 20px 50px rgba(0,0,0,.35);
+    }
+
+    .page-title {
+        font-size: 32px;
+        font-weight: 700;
+        color: #f8fafc;
+        margin-bottom: 8px;
+    }
+
+    .page-subtitle {
+        color: #94a3b8;
+        margin-bottom: 30px;
+    }
+
+    .section-title {
+        color: #60a5fa;
+        font-size: 18px;
+        font-weight: 600;
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        color: #cbd5e1;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .form-control,
+    .form-select {
+        background: #0f172a;
+        color: #f8fafc;
+        border: 1px solid #334155;
+        border-radius: 10px;
+        padding: 11px 14px;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            background: #0f172a;
+            color: white;
+            border-color: #60a5fa;
+            box-shadow: 0 0 0 3px rgba(96,165,250,.15);
+        }
+
+    textarea.form-control {
+        min-height: 130px;
+        resize: vertical;
+    }
+
+    .text-danger {
+        color: #f87171 !important;
+    }
+
+    .info-box {
+        background: rgba(37,99,235,.08);
+        border: 1px solid rgba(96,165,250,.2);
+        border-radius: 10px;
+        padding: 14px 16px;
+        margin-bottom: 25px;
+        color: #94a3b8;
+    }
+
+        .info-box strong {
+            color: #60a5fa;
+        }
+
+    .btn-create {
+        background: linear-gradient(135deg,#2563eb,#7c3aed);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 11px 24px;
+        font-weight: 600;
+    }
+
+        .btn-create:hover {
+            color: white;
+            opacity: .9;
+        }
+
+    .btn-back {
+        color: #94a3b8;
+        text-decoration: none;
+        margin-left: 15px;
+    }
+
+        .btn-back:hover {
+            color: #60a5fa;
+        }
+</style>
+
+<div class="page-wrapper">
+
+    <div class="form-card">
+
+        <div class="page-title">
+            Create Review Decision
+        </div>
+
+        <div class="page-subtitle">
+            Record a human review decision for an AI-generated release statement.
+        </div>
+
+        <div class="info-box">
+            <strong>Human review:</strong>
+            AI-generated release communication must be reviewed by a human before approval.
+        </div>
+
+        <form asp-action="Create">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger mb-3"></div>
+
+            <div class="section-title">
+                Review Information
+            </div>
+
+            <!-- Generated Statement ID -->
+            <div class="mb-4">
+                <label asp-for="GeneratedStatementId"
+                       class="form-label">
+                    Generated Statement ID
+                </label>
+
+                <input asp-for="GeneratedStatementId"
+                       class="form-control"
+                       type="number"
+                       min="1"
+                       placeholder="Enter generated statement ID" />
+
+                <span asp-validation-for="GeneratedStatementId"
+                      class="text-danger"></span>
+            </div>
+
+            <!-- Decision -->
+            <div class="mb-4">
+                <label asp-for="Decision"
+                       class="form-label">
+                    Decision
+                </label>
+
+                <select asp-for="Decision"
+                        class="form-select">
+
+                    <option value="">
+                        -- Select Decision --
+                    </option>
+
+                    <option value="Approved">
+                        Approved
+                    </option>
+
+                    <option value="Edited">
+                        Edited
+                    </option>
+
+                    <option value="Rejected">
+                        Rejected
+                    </option>
+
+                </select>
+
+                <span asp-validation-for="Decision"
+                      class="text-danger"></span>
+            </div>
+
+            <!-- Edited Text -->
+            <div class="mb-4">
+                <label asp-for="EditedText"
+                       class="form-label">
+                    Reviewed / Edited Text
+                </label>
+
+                <textarea asp-for="EditedText"
+                          class="form-control"
+                          placeholder="Enter the final reviewed statement..."></textarea>
+
+                <span asp-validation-for="EditedText"
+                      class="text-danger"></span>
+            </div>
+
+            <!-- Reviewer -->
+            <div class="mb-4">
+                <label asp-for="ReviewerName"
+                       class="form-label">
+                    Reviewer Name
+                </label>
+
+                <input asp-for="ReviewerName"
+                       class="form-control"
+                       placeholder="Enter reviewer name" />
+
+                <span asp-validation-for="ReviewerName"
+                      class="text-danger"></span>
+            </div>
+
+            <!-- Review Comment -->
+            <div class="mb-4">
+                <label asp-for="ReviewComment"
+                       class="form-label">
+                    Review Comment
+                </label>
+
+                <textarea asp-for="ReviewComment"
+                          class="form-control"
+                          placeholder="Add review comments..."></textarea>
+
+                <span asp-validation-for="ReviewComment"
+                      class="text-danger"></span>
+            </div>
+
+            <button type="submit"
+                    class="btn btn-create">
+                Create Review Decision
+            </button>
+
+            <a asp-action="Index"
+               class="btn-back">
+                ← Back to List
+            </a>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

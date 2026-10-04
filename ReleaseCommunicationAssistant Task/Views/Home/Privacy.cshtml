@@ -1,0 +1,347 @@
+﻿@{
+    ViewData["Title"] = "Privacy";
+}
+
+<style>
+
+    body {
+        background: #080d1a;
+        color: #e5e7eb;
+    }
+
+    .privacy-page {
+        min-height: calc(100vh - 68px);
+        padding: 60px 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .privacy-glow {
+        position: absolute;
+        width: 450px;
+        height: 450px;
+        border-radius: 50%;
+        filter: blur(110px);
+        opacity: .12;
+        pointer-events: none;
+    }
+
+    .glow-left {
+        background: #2563eb;
+        top: -180px;
+        left: -180px;
+    }
+
+    .glow-right {
+        background: #7c3aed;
+        right: -180px;
+        bottom: -180px;
+    }
+
+    .privacy-container {
+        max-width: 950px;
+        margin: auto;
+        position: relative;
+        z-index: 2;
+    }
+
+    .privacy-header {
+        text-align: center;
+        margin-bottom: 45px;
+    }
+
+    .privacy-icon {
+        width: 64px;
+        height: 64px;
+        margin: 0 auto 20px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 16px;
+        background: linear-gradient( 135deg, #2563eb, #7c3aed );
+        font-size: 28px;
+        box-shadow: 0 12px 30px rgba(37, 99, 235, .2);
+    }
+
+    .privacy-header h1 {
+        font-size: 42px;
+        font-weight: 750;
+        color: #f8fafc;
+        margin-bottom: 12px;
+    }
+
+    .privacy-header p {
+        color: #94a3b8;
+        font-size: 16px;
+        margin: 0;
+    }
+
+    .privacy-card {
+        background: rgba(15, 23, 42, .85);
+        border: 1px solid #26324a;
+        border-radius: 18px;
+        padding: 35px;
+        margin-bottom: 20px;
+        box-shadow: 0 20px 50px rgba(0,0,0,.2);
+        backdrop-filter: blur(10px);
+    }
+
+        .privacy-card h2 {
+            color: #f8fafc;
+            font-size: 20px;
+            font-weight: 650;
+            margin-bottom: 14px;
+        }
+
+            .privacy-card h2 span {
+                color: #60a5fa;
+                margin-right: 8px;
+            }
+
+        .privacy-card p {
+            color: #94a3b8;
+            line-height: 1.75;
+            font-size: 14px;
+            margin-bottom: 0;
+        }
+
+        .privacy-card ul {
+            margin-top: 12px;
+            margin-bottom: 0;
+            padding-left: 20px;
+        }
+
+        .privacy-card li {
+            color: #94a3b8;
+            line-height: 1.8;
+            font-size: 14px;
+            margin-bottom: 5px;
+        }
+
+    .info-box {
+        background: rgba(37, 99, 235, .07);
+        border: 1px solid rgba(96, 165, 250, .18);
+        border-radius: 14px;
+        padding: 20px;
+        margin-top: 30px;
+    }
+
+        .info-box strong {
+            color: #60a5fa;
+        }
+
+    .last-updated {
+        text-align: center;
+        color: #475569;
+        font-size: 12px;
+        margin-top: 30px;
+    }
+
+    @@media (max-width: 650px) {
+
+        .privacy-page {
+            padding: 40px 15px;
+        }
+
+        .privacy-header h1 {
+            font-size: 34px;
+        }
+
+        .privacy-card {
+            padding: 25px;
+        }
+    }
+
+</style>
+
+
+<div class="privacy-page">
+
+    <div class="privacy-glow glow-left"></div>
+    <div class="privacy-glow glow-right"></div>
+
+
+    <div class="privacy-container">
+
+
+        <!-- HEADER -->
+
+        <div class="privacy-header">
+
+            <div class="privacy-icon">
+                🛡️
+            </div>
+
+            <h1>
+                Privacy & Data Protection
+            </h1>
+
+            <p>
+                Information about how data is handled within the
+                Release Communication & Readiness Assistant.
+            </p>
+
+        </div>
+
+
+        <!-- APPLICATION DATA -->
+
+        <div class="privacy-card">
+
+            <h2>
+                <span>01</span>
+                Application Data
+            </h2>
+
+            <p>
+                This application manages structured release information,
+                release items, QA evidence, generated communication
+                statements, and human review decisions.
+            </p>
+
+        </div>
+
+
+        <!-- RELEASE INFORMATION -->
+
+        <div class="privacy-card">
+
+            <h2>
+                <span>02</span>
+                Release Information
+            </h2>
+
+            <p>
+                Release information entered into the application may include:
+            </p>
+
+            <ul>
+
+                <li>
+                    Release version and status
+                </li>
+
+                <li>
+                    Features and bug fixes
+                </li>
+
+                <li>
+                    Behaviour changes
+                </li>
+
+                <li>
+                    QA evidence and test results
+                </li>
+
+                <li>
+                    Known limitations
+                </li>
+
+                <li>
+                    Migration and configuration notes
+                </li>
+
+                <li>
+                    Affected user groups
+                </li>
+
+            </ul>
+
+        </div>
+
+
+        <!-- AI GENERATED CONTENT -->
+
+        <div class="privacy-card">
+
+            <h2>
+                <span>03</span>
+                AI-Generated Content
+            </h2>
+
+            <p>
+                AI-generated release statements are treated as draft
+                communication. Generated content should be reviewed by
+                an authorized human reviewer before being used as final
+                release communication.
+            </p>
+
+        </div>
+
+
+        <!-- HUMAN REVIEW -->
+
+        <div class="privacy-card">
+
+            <h2>
+                <span>04</span>
+                Human Review & Approval
+            </h2>
+
+            <p>
+                The application maintains review decisions associated
+                with generated statements. Reviewers can approve, edit,
+                or reject generated content. AI-generated content does
+                not independently approve or deploy a release.
+            </p>
+
+        </div>
+
+
+        <!-- DATABASE -->
+
+        <div class="privacy-card">
+
+            <h2>
+                <span>05</span>
+                Data Storage
+            </h2>
+
+            <p>
+                Application data is stored in the configured SQL Server
+                database used by this application. Access to the database
+                should be controlled through the application's configured
+                environment and database permissions.
+            </p>
+
+        </div>
+
+
+        <!-- RESPONSIBLE AI -->
+
+        <div class="privacy-card">
+
+            <h2>
+                <span>06</span>
+                Responsible AI
+            </h2>
+
+            <p>
+                The application is designed to keep AI assistance separate
+                from final release approval. Generated statements can be
+                checked against supplied release and QA evidence, and
+                unsupported claims should be identified for human review.
+            </p>
+
+            <div class="info-box">
+
+                <strong>
+                    Important:
+                </strong>
+
+                AI assistance does not replace human review or release
+                governance.
+
+            </div>
+
+        </div>
+
+
+        <div class="last-updated">
+            Release Communication & Readiness Assistant
+        </div>
+
+
+    </div>
+
+</div>

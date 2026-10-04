@@ -1,0 +1,470 @@
+﻿@model IEnumerable<ReleaseCommunicationAssistant_Task.Models.ReviewDecision>
+
+@{
+    ViewData["Title"] = "Review Decisions";
+}
+
+<style>
+    body {
+        background: #0b1020;
+        color: #e5e7eb;
+    }
+
+    .page-wrapper {
+        padding: 40px 25px;
+        min-height: 100vh;
+    }
+
+    .page-container {
+        max-width: 1500px;
+        margin: auto;
+    }
+
+    .header-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        gap: 20px;
+    }
+
+    .page-title {
+        font-size: 34px;
+        font-weight: 700;
+        margin: 0;
+        color: #f8fafc;
+    }
+
+    .page-subtitle {
+        color: #94a3b8;
+        margin-top: 8px;
+        font-size: 15px;
+    }
+
+    .btn-create {
+        background: linear-gradient(135deg, #2563eb, #7c3aed);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 11px 20px;
+        font-weight: 600;
+        text-decoration: none;
+        white-space: nowrap;
+        transition: 0.2s;
+    }
+
+        .btn-create:hover {
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(59, 130, 246, 0.25);
+        }
+
+    .stats-card {
+        background: #111827;
+        border: 1px solid #26324a;
+        border-radius: 14px;
+        padding: 20px;
+        margin-bottom: 25px;
+    }
+
+    .stats-label {
+        color: #94a3b8;
+        font-size: 13px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .stats-value {
+        font-size: 28px;
+        font-weight: 700;
+        color: #60a5fa;
+        margin-top: 5px;
+    }
+
+    .table-card {
+        background: #111827;
+        border: 1px solid #26324a;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+    }
+
+    .table-wrapper {
+        overflow-x: auto;
+    }
+
+    .review-table {
+        width: 100%;
+        border-collapse: collapse;
+        min-width: 1100px;
+    }
+
+        .review-table thead {
+            background: #172033;
+        }
+
+        .review-table th {
+            color: #94a3b8;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+            padding: 17px 16px;
+            text-align: left;
+            border-bottom: 1px solid #26324a;
+            white-space: nowrap;
+        }
+
+        .review-table td {
+            padding: 17px 16px;
+            border-bottom: 1px solid #1f2937;
+            color: #dbe4f0;
+            vertical-align: middle;
+        }
+
+        .review-table tbody tr {
+            transition: background 0.2s;
+        }
+
+            .review-table tbody tr:hover {
+                background: #151f33;
+            }
+
+    .id-badge {
+        display: inline-block;
+        background: rgba(59, 130, 246, 0.12);
+        color: #60a5fa;
+        padding: 5px 9px;
+        border-radius: 7px;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .decision-badge {
+        display: inline-block;
+        padding: 6px 11px;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .decision-approved {
+        background: rgba(34, 197, 94, 0.12);
+        color: #4ade80;
+    }
+
+    .decision-edited {
+        background: rgba(245, 158, 11, 0.12);
+        color: #fbbf24;
+    }
+
+    .decision-rejected {
+        background: rgba(239, 68, 68, 0.12);
+        color: #f87171;
+    }
+
+    .text-cell {
+        max-width: 320px;
+        white-space: normal;
+        line-height: 1.5;
+    }
+
+    .reviewer {
+        color: #f8fafc;
+        font-weight: 600;
+    }
+
+    .comment {
+        color: #94a3b8;
+        max-width: 250px;
+    }
+
+    .date-text {
+        color: #94a3b8;
+        white-space: nowrap;
+        font-size: 13px;
+    }
+
+    .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        min-width: 90px;
+    }
+
+    .action-link {
+        text-decoration: none;
+        padding: 6px 10px;
+        border-radius: 7px;
+        text-align: center;
+        font-size: 12px;
+        font-weight: 600;
+        border: 1px solid #334155;
+        color: #cbd5e1;
+        background: #0f172a;
+        transition: 0.2s;
+    }
+
+        .action-link:hover {
+            color: white;
+            background: #1e293b;
+            border-color: #60a5fa;
+        }
+
+    .action-edit:hover {
+        color: #60a5fa;
+    }
+
+    .action-details:hover {
+        color: #4ade80;
+    }
+
+    .action-delete:hover {
+        color: #f87171;
+        border-color: #ef4444;
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 70px 25px;
+    }
+
+    .empty-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        background: rgba(59, 130, 246, 0.1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+    }
+
+    .empty-title {
+        font-size: 20px;
+        font-weight: 600;
+        color: #f8fafc;
+        margin-bottom: 8px;
+    }
+
+    .empty-text {
+        color: #64748b;
+        margin-bottom: 22px;
+    }
+
+    @@media (max-width: 768px) {
+        .header-section {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .page-title {
+            font-size: 28px;
+        }
+
+        .btn-create {
+            width: 100%;
+            text-align: center;
+        }
+
+        .page-wrapper {
+            padding: 25px 15px;
+        }
+    }
+</style>
+
+<div class="page-wrapper">
+
+    <div class="page-container">
+
+        <!-- Header -->
+        <div class="header-section">
+
+            <div>
+                <h1 class="page-title">
+                    Review Decisions
+                </h1>
+
+                <div class="page-subtitle">
+                    Human review decisions for AI-generated release communication statements
+                </div>
+            </div>
+
+            <a asp-action="Create" class="btn-create">
+                + Create Review Decision
+            </a>
+
+        </div>
+
+        <!-- Count -->
+        <div class="stats-card">
+            <div class="stats-label">
+                Total Review Decisions
+            </div>
+
+            <div class="stats-value">
+                @Model.Count()
+            </div>
+        </div>
+
+        <!-- Table -->
+        <div class="table-card">
+
+            @if (Model != null && Model.Any())
+            {
+                <div class="table-wrapper">
+
+                    <table class="review-table">
+
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Generated Statement</th>
+                                <th>Decision</th>
+                                <th>Reviewed / Edited Text</th>
+                                <th>Reviewer</th>
+                                <th>Review Comment</th>
+                                <th>Reviewed At</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            @foreach (var item in Model)
+                            {
+                                var decisionClass = item.Decision?.ToLower() switch
+                                {
+                                    "approved" => "decision-approved",
+                                    "edited" => "decision-edited",
+                                    "rejected" => "decision-rejected",
+                                    _ => ""
+                                };
+
+                                <tr>
+
+                                    <!-- Review Decision ID -->
+                                    <td>
+                                        <span class="id-badge">
+                                            #@item.ReviewDecisionId
+                                        </span>
+                                    </td>
+
+                                    <!-- Generated Statement ID -->
+                                    <td>
+                                        <span class="id-badge">
+                                            #@item.GeneratedStatementId
+                                        </span>
+                                    </td>
+
+                                    <!-- Decision -->
+                                    <td>
+                                        <span class="decision-badge @decisionClass">
+                                            @item.Decision
+                                        </span>
+                                    </td>
+
+                                    <!-- Edited Text -->
+                                    <td class="text-cell">
+                                        @if (!string.IsNullOrWhiteSpace(item.EditedText))
+                                        {
+                                            @item.EditedText
+                                        }
+                                        else
+                                        {
+                                            <span style="color:#64748b;">
+                                                No edited text
+                                            </span>
+                                        }
+                                    </td>
+
+                                    <!-- Reviewer -->
+                                    <td>
+                                        <span class="reviewer">
+                                            @item.ReviewerName
+                                        </span>
+                                    </td>
+
+                                    <!-- Comment -->
+                                    <td class="comment">
+                                        @if (!string.IsNullOrWhiteSpace(item.ReviewComment))
+                                        {
+                                            @item.ReviewComment
+                                        }
+                                        else
+                                        {
+                                            <span>No comment</span>
+                                        }
+                                    </td>
+
+                                    <!-- Reviewed At -->
+                                    <td class="date-text">
+                                        @item.ReviewedAt.ToString("dd MMM yyyy, HH:mm")
+                                    </td>
+
+                                    <!-- Actions -->
+                                    <td>
+
+                                        <div class="actions">
+
+                                            <a asp-action="Edit"
+                                               asp-route-id="@item.ReviewDecisionId"
+                                               class="action-link action-edit">
+                                                Edit
+                                            </a>
+
+                                            <a asp-action="Details"
+                                               asp-route-id="@item.ReviewDecisionId"
+                                               class="action-link action-details">
+                                                Details
+                                            </a>
+
+                                            <a asp-action="Delete"
+                                               asp-route-id="@item.ReviewDecisionId"
+                                               class="action-link action-delete">
+                                                Delete
+                                            </a>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+                            }
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+            }
+            else
+            {
+                <!-- Empty State -->
+                <div class="empty-state">
+
+                    <div class="empty-icon">
+                        ✓
+                    </div>
+
+                    <div class="empty-title">
+                        No Review Decisions Yet
+                    </div>
+
+                    <div class="empty-text">
+                        Human review decisions will appear here after an AI-generated statement is reviewed.
+                    </div>
+
+                    <a asp-action="Create" class="btn-create">
+                        + Create First Review Decision
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

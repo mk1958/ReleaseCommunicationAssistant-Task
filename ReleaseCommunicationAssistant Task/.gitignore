@@ -1,0 +1,28 @@
+bin/
+obj/
+.vs/
+*.user
+*.suo
+
+# User secrets
+secrets.json
+
+# Environment files
+.env
+.env.*
+!.env.example
+
+# Logs
+*.log
+logs/
+
+# Local databases
+*.mdf
+*.ldf
+*.db
+*.sqlite
+*.sqlite3
+
+# OS files
+.DS_Store
+Thumbs.db

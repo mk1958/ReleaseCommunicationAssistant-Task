@@ -1,0 +1,174 @@
+﻿@model ReleaseCommunicationAssistant_Task.Models.ReleaseImpactViewModel
+
+@{
+    ViewData["Title"] = "User Impact Classification";
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="text-white fw-bold mb-1">
+                User Impact Classification
+            </h1>
+
+            <p class="text-secondary mb-0">
+                Automatic deterministic classification based on supplied release information.
+            </p>
+        </div>
+
+        <a asp-controller="ReleaseItems"
+           asp-action="Index"
+           class="btn btn-outline-light">
+            ← Back to Release Items
+        </a>
+
+    </div>
+
+    <div class="card bg-dark text-white border-secondary shadow">
+
+        <div class="card-body p-4">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+
+                <div>
+                    <h4 class="mb-1">
+                        @Model.Title
+                    </h4>
+
+                    <span class="text-secondary">
+                        @Model.EvidenceCode
+                    </span>
+                </div>
+
+                @if (Model.ImpactLevel == "High")
+                {
+                    <span class="badge bg-danger fs-6 px-4 py-2">
+                        HIGH IMPACT
+                    </span>
+                }
+                else if (Model.ImpactLevel == "Medium")
+                {
+                    <span class="badge bg-warning text-dark fs-6 px-4 py-2">
+                        MEDIUM IMPACT
+                    </span>
+                }
+                else
+                {
+                    <span class="badge bg-success fs-6 px-4 py-2">
+                        LOW IMPACT
+                    </span>
+                }
+
+            </div>
+
+            <hr class="border-secondary" />
+
+            <div class="row g-4">
+
+                <div class="col-md-6">
+
+                    <h6 class="text-secondary">
+                        Item Type
+                    </h6>
+
+                    <p>
+                        @(string.IsNullOrWhiteSpace(Model.ItemType)
+                                                ? "Not specified"
+                                                : Model.ItemType)
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <h6 class="text-secondary">
+                        Affected Users
+                    </h6>
+
+                    <p>
+                        @(string.IsNullOrWhiteSpace(Model.AffectedUsers)
+                                                ? "Not specified"
+                                                : Model.AffectedUsers)
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <h6 class="text-secondary">
+                        User Impact
+                    </h6>
+
+                    <p>
+                        @(string.IsNullOrWhiteSpace(Model.UserImpact)
+                                                ? "Not specified"
+                                                : Model.UserImpact)
+                    </p>
+
+                </div>
+
+                <div class="col-md-6">
+
+                    <h6 class="text-secondary">
+                        Impact Reason
+                    </h6>
+
+                    <p>
+                        @(string.IsNullOrWhiteSpace(Model.ImpactReason)
+                                                ? "Not specified"
+                                                : Model.ImpactReason)
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="mt-4 p-3 border border-secondary rounded">
+
+                <h6 class="text-white">
+                    Classification Result
+                </h6>
+
+                <p class="text-secondary mb-0">
+
+                    The system classified this release item as
+
+                    <strong class="text-white">
+                        @Model.ImpactLevel
+                    </strong>
+
+                    impact using the supplied release-item information.
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+
+    body {
+        background: #0f1115;
+    }
+
+    .card {
+        border-radius: 14px;
+    }
+
+    .badge {
+        border-radius: 8px;
+        letter-spacing: 0.5px;
+    }
+
+    .card p {
+        color: #cbd5e1;
+        line-height: 1.6;
+    }
+
+</style>

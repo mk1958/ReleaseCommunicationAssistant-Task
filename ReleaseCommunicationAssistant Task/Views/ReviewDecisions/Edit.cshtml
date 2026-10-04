@@ -1,0 +1,290 @@
+﻿@model ReleaseCommunicationAssistant_Task.Models.ReviewDecision
+
+@{
+    ViewData["Title"] = "Edit Review Decision";
+}
+
+<style>
+    .review-page {
+        min-height: calc(100vh - 130px);
+        background: radial-gradient(circle at 15% 10%, rgba(37, 99, 235, 0.10), transparent 30%), #080d1a;
+        color: #e5e7eb;
+        padding: 55px 25px 80px;
+    }
+
+    .review-container {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .page-header {
+        margin-bottom: 30px;
+    }
+
+        .page-header h1 {
+            color: #f8fafc;
+            font-size: 34px;
+            font-weight: 750;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #94a3b8;
+            margin: 0;
+        }
+
+    .form-card {
+        background: #0f172a;
+        border: 1px solid #1e293b;
+        border-radius: 18px;
+        padding: 35px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.20);
+    }
+
+    .form-group {
+        margin-bottom: 22px;
+    }
+
+    .form-label {
+        display: block;
+        color: #cbd5e1;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .form-control,
+    .form-select {
+        background: #080d1a !important;
+        border: 1px solid #334155 !important;
+        color: #f8fafc !important;
+        border-radius: 9px;
+        padding: 12px 14px;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #3b82f6 !important;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12) !important;
+        }
+
+    textarea.form-control {
+        min-height: 130px;
+        resize: vertical;
+    }
+
+    .form-control[readonly] {
+        background: #111827 !important;
+        color: #94a3b8 !important;
+    }
+
+    .text-danger {
+        color: #f87171 !important;
+        font-size: 13px;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 12px;
+        margin-top: 30px;
+        padding-top: 25px;
+        border-top: 1px solid #1e293b;
+    }
+
+    .btn-save {
+        background: linear-gradient(135deg, #2563eb, #7c3aed);
+        color: white;
+        border: none;
+        border-radius: 9px;
+        padding: 12px 24px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+
+        .btn-save:hover {
+            color: white;
+            opacity: 0.9;
+        }
+
+    .btn-back {
+        background: #111827;
+        color: #cbd5e1;
+        border: 1px solid #334155;
+        border-radius: 9px;
+        padding: 12px 24px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+        .btn-back:hover {
+            background: #172033;
+            color: white;
+        }
+
+    .validation-summary {
+        background: rgba(127, 29, 29, 0.20);
+        border: 1px solid #7f1d1d;
+        border-radius: 10px;
+        padding: 14px;
+        margin-bottom: 22px;
+        color: #fca5a5;
+    }
+
+    @@media (max-width: 650px) {
+        .review-page {
+            padding: 35px 18px;
+        }
+
+        .form-card {
+            padding: 22px;
+        }
+
+        .form-actions {
+            flex-direction: column;
+        }
+
+        .btn-save,
+        .btn-back {
+            text-align: center;
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="review-page">
+
+    <div class="review-container">
+
+        <div class="page-header">
+            <h1>Edit Review Decision</h1>
+            <p>Update the human review decision for the generated statement.</p>
+        </div>
+
+        <div class="form-card">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation-summary"></div>
+
+            <form asp-action="Edit" method="post">
+
+                <input type="hidden"
+                       asp-for="ReviewDecisionId" />
+
+                <div class="form-group">
+
+                    <label asp-for="GeneratedStatementId"
+                           class="form-label">
+                        Generated Statement ID
+                    </label>
+
+                    <input asp-for="GeneratedStatementId"
+                           class="form-control"
+                           readonly />
+
+                    <span asp-validation-for="GeneratedStatementId"
+                          class="text-danger"></span>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label asp-for="Decision"
+                           class="form-label">
+                        Decision
+                    </label>
+
+                    <select asp-for="Decision"
+                            class="form-select">
+
+                        <option value="">Select Decision</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Edited">Edited</option>
+                        <option value="Rejected">Rejected</option>
+
+                    </select>
+
+                    <span asp-validation-for="Decision"
+                          class="text-danger"></span>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label asp-for="EditedText"
+                           class="form-label">
+                        Reviewed / Edited Text
+                    </label>
+
+                    <textarea asp-for="EditedText"
+                              class="form-control"
+                              placeholder="Enter the reviewed or edited statement..."></textarea>
+
+                    <span asp-validation-for="EditedText"
+                          class="text-danger"></span>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label asp-for="ReviewerName"
+                           class="form-label">
+                        Reviewer Name
+                    </label>
+
+                    <input asp-for="ReviewerName"
+                           class="form-control"
+                           placeholder="Enter reviewer name" />
+
+                    <span asp-validation-for="ReviewerName"
+                          class="text-danger"></span>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label asp-for="ReviewComment"
+                           class="form-label">
+                        Review Comment
+                    </label>
+
+                    <textarea asp-for="ReviewComment"
+                              class="form-control"
+                              placeholder="Enter review comments..."></textarea>
+
+                    <span asp-validation-for="ReviewComment"
+                          class="text-danger"></span>
+
+                </div>
+
+
+                <div class="form-actions">
+
+                    <button type="submit"
+                            class="btn-save">
+                        Save Changes
+                    </button>
+
+                    <a asp-action="Index"
+                       class="btn-back">
+                        Cancel
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

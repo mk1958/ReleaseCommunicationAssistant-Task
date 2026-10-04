@@ -1,0 +1,668 @@
+﻿@model ReleaseCommunicationAssistant_Task.Models.Qaevidence
+
+@{
+    ViewData["Title"] = "Edit QA Evidence";
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background: radial-gradient(circle at 10% 10%, rgba(14, 165, 233, .16), transparent 28%), radial-gradient(circle at 90% 20%, rgba(139, 92, 246, .16), transparent 30%), linear-gradient(135deg, #07111f, #0f172a 55%, #172554);
+        min-height: 100vh;
+    }
+
+    .qa-edit-page {
+        min-height: calc(100vh - 70px);
+        padding: 35px;
+    }
+
+    /* HEADER */
+
+    .qa-edit-header {
+        position: relative;
+        overflow: hidden;
+        padding: 32px;
+        border-radius: 22px;
+        background: linear-gradient( 135deg, #0f172a, #164e63, #312e81 );
+        color: white;
+        margin-bottom: 25px;
+        box-shadow: 0 20px 50px rgba(0,0,0,.25);
+        border: 1px solid rgba(255,255,255,.08);
+    }
+
+        .qa-edit-header::after {
+            content: "";
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background: rgba(56,189,248,.12);
+            right: -55px;
+            top: -75px;
+            filter: blur(4px);
+        }
+
+    .qa-edit-header-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .qa-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: rgba(56,189,248,.12);
+        border: 1px solid rgba(125,211,252,.25);
+        color: #7dd3fc;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        margin-bottom: 12px;
+    }
+
+    .qa-edit-header h1 {
+        margin: 0;
+        font-size: 30px;
+        font-weight: 800;
+    }
+
+    .qa-edit-header p {
+        margin: 8px 0 0;
+        color: #cbd5e1;
+        font-size: 14px;
+    }
+
+    /* MAIN CARD */
+
+    .qa-form-card {
+        background: rgba(15,23,42,.90);
+        border: 1px solid rgba(148,163,184,.14);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 15px 40px rgba(0,0,0,.25);
+    }
+
+    /* SECTION */
+
+    .form-section {
+        margin-bottom: 30px;
+    }
+
+        .form-section:last-of-type {
+            margin-bottom: 10px;
+        }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+        padding-bottom: 12px;
+        border-bottom: 1px solid rgba(148,163,184,.12);
+    }
+
+    .section-number {
+        width: 34px;
+        height: 34px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 9px;
+        background: linear-gradient(135deg, #0284c7, #4f46e5);
+        color: white;
+        font-size: 11px;
+        font-weight: 800;
+    }
+
+    .section-title {
+        color: #f8fafc;
+        font-size: 16px;
+        font-weight: 750;
+    }
+
+    .section-subtitle {
+        color: #64748b;
+        font-size: 11px;
+        margin-top: 2px;
+    }
+
+    /* FORM */
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    .form-label {
+        display: block;
+        color: #cbd5e1;
+        font-size: 12px;
+        font-weight: 700;
+        margin-bottom: 8px;
+    }
+
+    .form-control,
+    .form-select {
+        width: 100%;
+        background: rgba(30,41,59,.80);
+        border: 1px solid rgba(148,163,184,.20);
+        color: #f8fafc;
+        border-radius: 9px;
+        padding: 11px 13px;
+        font-size: 13px;
+        outline: none;
+        transition: .2s;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            background: rgba(30,41,59,.95);
+            border-color: #38bdf8;
+            box-shadow: 0 0 0 3px rgba(56,189,248,.10);
+            color: #ffffff;
+        }
+
+        .form-control::placeholder {
+            color: #64748b;
+        }
+
+    textarea.form-control {
+        min-height: 130px;
+        resize: vertical;
+        line-height: 1.6;
+    }
+
+    .form-select option {
+        background: #0f172a;
+        color: #f8fafc;
+    }
+
+    .text-danger {
+        display: block;
+        margin-top: 6px;
+        color: #f87171 !important;
+        font-size: 11px;
+    }
+
+    .field-hint {
+        color: #64748b;
+        font-size: 10px;
+        margin-top: 6px;
+    }
+
+    /* READ ONLY */
+
+    .readonly-field {
+        background: rgba(15,23,42,.75) !important;
+        color: #94a3b8 !important;
+        cursor: not-allowed;
+    }
+
+    /* GRID */
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 20px;
+    }
+
+    .full-width {
+        grid-column: 1 / -1;
+    }
+
+    /* BUTTONS */
+
+    .form-actions {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding-top: 22px;
+        margin-top: 10px;
+        border-top: 1px solid rgba(148,163,184,.12);
+    }
+
+    .left-actions {
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-save {
+        border: none;
+        background: linear-gradient(135deg, #0284c7, #4f46e5);
+        color: white;
+        padding: 11px 22px;
+        border-radius: 9px;
+        font-size: 12px;
+        font-weight: 750;
+        cursor: pointer;
+        box-shadow: 0 8px 18px rgba(37,99,235,.22);
+        transition: .25s;
+    }
+
+        .btn-save:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(37,99,235,.32);
+        }
+
+    .btn-back {
+        display: inline-block;
+        text-decoration: none;
+        color: #cbd5e1;
+        background: rgba(51,65,85,.55);
+        border: 1px solid rgba(148,163,184,.18);
+        padding: 10px 18px;
+        border-radius: 9px;
+        font-size: 12px;
+        font-weight: 700;
+        transition: .2s;
+    }
+
+        .btn-back:hover {
+            color: white;
+            background: rgba(71,85,105,.70);
+            transform: translateY(-1px);
+        }
+
+    .btn-cancel {
+        display: inline-block;
+        text-decoration: none;
+        color: #f87171;
+        background: rgba(239,68,68,.08);
+        border: 1px solid rgba(239,68,68,.15);
+        padding: 10px 18px;
+        border-radius: 9px;
+        font-size: 12px;
+        font-weight: 700;
+        transition: .2s;
+    }
+
+        .btn-cancel:hover {
+            color: #fca5a5;
+            background: rgba(239,68,68,.15);
+        }
+
+    /* VALIDATION */
+
+    .validation-summary {
+        background: rgba(239,68,68,.08);
+        border: 1px solid rgba(239,68,68,.18);
+        color: #fca5a5;
+        border-radius: 10px;
+        padding: 12px 15px;
+        margin-bottom: 25px;
+        font-size: 12px;
+    }
+
+        .validation-summary ul {
+            margin: 5px 0 0 18px;
+            padding: 0;
+        }
+
+    /* RESPONSIVE */
+
+    @@media (max-width: 768px) {
+
+        .qa-edit-page {
+            padding: 18px;
+        }
+
+        .qa-form-card {
+            padding: 20px;
+        }
+
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .full-width {
+            grid-column: auto;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .left-actions {
+            width: 100%;
+        }
+
+        .btn-save {
+            width: 100%;
+        }
+
+        .btn-back,
+        .btn-cancel {
+            text-align: center;
+            flex: 1;
+        }
+
+        .qa-edit-header h1 {
+            font-size: 25px;
+        }
+    }
+</style>
+
+
+<div class="qa-edit-page">
+
+    <!-- HEADER -->
+
+    <div class="qa-edit-header">
+
+        <div class="qa-edit-header-content">
+
+            <span class="qa-badge">
+                Release Quality
+            </span>
+
+            <h1>
+                Edit QA Evidence
+            </h1>
+
+            <p>
+                Update testing evidence and validation information associated with this release.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- FORM CARD -->
+
+    <div class="qa-form-card">
+
+        <form asp-action="Edit" method="post">
+
+            @Html.AntiForgeryToken()
+
+            <div asp-validation-summary="ModelOnly"
+                 class="validation-summary">
+            </div>
+
+
+            <!-- SECTION 01 -->
+
+            <div class="form-section">
+
+                <div class="section-header">
+
+                    <div class="section-number">
+                        01
+                    </div>
+
+                    <div>
+                        <div class="section-title">
+                            Release Information
+                        </div>
+
+                        <div class="section-subtitle">
+                            Identify the release associated with this QA evidence.
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label asp-for="QaevidenceId"
+                               class="form-label">
+                            QA Evidence ID
+                        </label>
+
+                        <input asp-for="QaevidenceId"
+                               class="form-control readonly-field"
+                               readonly />
+
+                        <span class="field-hint">
+                            System-generated identifier.
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label asp-for="ReleaseId"
+                               class="form-label">
+                            Release ID
+                        </label>
+
+                        <input asp-for="ReleaseId"
+                               class="form-control"
+                               type="number" />
+
+                        <span asp-validation-for="ReleaseId"
+                              class="text-danger">
+                        </span>
+
+                        <div class="field-hint">
+                            ID of the release this evidence belongs to.
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SECTION 02 -->
+
+            <div class="form-section">
+
+                <div class="section-header">
+
+                    <div class="section-number">
+                        02
+                    </div>
+
+                    <div>
+                        <div class="section-title">
+                            Evidence Details
+                        </div>
+
+                        <div class="section-subtitle">
+                            Define the QA test and supporting evidence.
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label asp-for="EvidenceCode"
+                               class="form-label">
+                            Evidence Code
+                        </label>
+
+                        <input asp-for="EvidenceCode"
+                               class="form-control"
+                               placeholder="Example: QA-001" />
+
+                        <span asp-validation-for="EvidenceCode"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label asp-for="TestArea"
+                               class="form-label">
+                            Test Area
+                        </label>
+
+                        <input asp-for="TestArea"
+                               class="form-control"
+                               placeholder="Example: Functional Testing" />
+
+                        <span asp-validation-for="TestArea"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-group full-width">
+
+                        <label asp-for="EvidenceDescription"
+                               class="form-label">
+                            Evidence Description
+                        </label>
+
+                        <textarea asp-for="EvidenceDescription"
+                                  class="form-control"
+                                  placeholder="Describe what was tested and what the QA evidence demonstrates..."></textarea>
+
+                        <span asp-validation-for="EvidenceDescription"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- SECTION 03 -->
+
+            <div class="form-section">
+
+                <div class="section-header">
+
+                    <div class="section-number">
+                        03
+                    </div>
+
+                    <div>
+                        <div class="section-title">
+                            Test Result
+                        </div>
+
+                        <div class="section-subtitle">
+                            Record the current QA validation outcome.
+                        </div>
+                    </div>
+
+                </div>
+
+
+                <div class="form-grid">
+
+                    <div class="form-group">
+
+                        <label asp-for="Result"
+                               class="form-label">
+                            Result
+                        </label>
+
+                        <select asp-for="Result"
+                                class="form-select">
+
+                            <option value="">
+                                Select Result
+                            </option>
+
+                            <option value="Passed">
+                                Passed
+                            </option>
+
+                            <option value="Failed">
+                                Failed
+                            </option>
+
+                            <option value="Partial">
+                                Partial
+                            </option>
+
+                            <option value="NotTested">
+                                Not Tested
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="Result"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+
+                    <div class="form-group">
+
+                        <label asp-for="TestDate"
+                               class="form-label">
+                            Test Date
+                        </label>
+
+                        <input asp-for="TestDate"
+                               class="form-control"
+                               type="date" />
+
+                        <span asp-validation-for="TestDate"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="form-actions">
+
+                <div class="left-actions">
+
+                    <a asp-controller="Qaevidences"
+                       asp-action="Index"
+                       class="btn-back">
+                        ← Back to QA Evidence
+                    </a>
+
+                    <a asp-controller="Qaevidences"
+                       asp-action="Details"
+                       asp-route-id="@Model.QaevidenceId"
+                       class="btn-cancel">
+                        View Details
+                    </a>
+
+                </div>
+
+                <button type="submit"
+                        class="btn-save">
+                    Save Changes
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+@section Scripts {
+
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+}

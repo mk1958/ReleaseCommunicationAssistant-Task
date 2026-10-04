@@ -1,0 +1,762 @@
+﻿@{
+    ViewData["Title"] = "Release Communication & Readiness Assistant";
+}
+
+<style>
+    .home-page {
+        min-height: calc(100vh - 130px);
+        background: radial-gradient(circle at 15% 15%, rgba(37, 99, 235, 0.14), transparent 30%), radial-gradient(circle at 85% 25%, rgba(124, 58, 237, 0.12), transparent 30%), #080d1a;
+        color: #e5e7eb;
+        padding: 70px 25px 90px;
+    }
+
+    .home-container {
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    /* HERO */
+
+    .hero-section {
+        text-align: center;
+        padding: 40px 0 75px;
+    }
+
+    .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px;
+        border: 1px solid #263552;
+        border-radius: 999px;
+        background: rgba(15, 23, 42, 0.8);
+        color: #93c5fd;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 25px;
+    }
+
+    .hero-badge-dot {
+        width: 8px;
+        height: 8px;
+        background: #22c55e;
+        border-radius: 50%;
+        box-shadow: 0 0 12px rgba(34, 197, 94, 0.6);
+    }
+
+    .hero-title {
+        max-width: 900px;
+        margin: 0 auto;
+        font-size: clamp(42px, 6vw, 70px);
+        line-height: 1.05;
+        font-weight: 800;
+        letter-spacing: -2.5px;
+        color: #f8fafc;
+    }
+
+        .hero-title span {
+            background: linear-gradient(135deg, #60a5fa, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+    .hero-description {
+        max-width: 760px;
+        margin: 28px auto 0;
+        color: #94a3b8;
+        font-size: 18px;
+        line-height: 1.7;
+    }
+
+    .hero-actions {
+        display: flex;
+        justify-content: center;
+        gap: 14px;
+        margin-top: 35px;
+        flex-wrap: wrap;
+    }
+
+    .hero-button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 13px 22px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+        font-size: 14px;
+        transition: all 0.2s ease;
+    }
+
+    .hero-button-primary {
+        background: #2563eb;
+        color: white;
+        box-shadow: 0 10px 30px rgba(37, 99, 235, 0.25);
+    }
+
+        .hero-button-primary:hover {
+            background: #1d4ed8;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+    .hero-button-secondary {
+        background: #111827;
+        border: 1px solid #263552;
+        color: #cbd5e1;
+    }
+
+        .hero-button-secondary:hover {
+            background: #172033;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+    /* SECTIONS */
+
+    .section {
+        margin-top: 70px;
+    }
+
+    .section-heading {
+        text-align: center;
+        margin-bottom: 35px;
+    }
+
+        .section-heading h2 {
+            color: #f8fafc;
+            font-size: 30px;
+            font-weight: 750;
+            margin-bottom: 10px;
+        }
+
+        .section-heading p {
+            color: #64748b;
+            margin: 0;
+            font-size: 15px;
+        }
+
+    /* FEATURES */
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 18px;
+    }
+
+    .feature-card {
+        background: linear-gradient( 145deg, rgba(17, 24, 39, 0.96), rgba(10, 16, 30, 0.96) );
+        border: 1px solid #1e293b;
+        border-radius: 16px;
+        padding: 28px;
+        min-height: 210px;
+        transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: #334155;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        }
+
+    .feature-icon {
+        width: 46px;
+        height: 46px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 12px;
+        background: #172033;
+        color: #60a5fa;
+        font-size: 20px;
+        margin-bottom: 20px;
+    }
+
+    .feature-card h3 {
+        color: #f8fafc;
+        font-size: 17px;
+        margin-bottom: 10px;
+        font-weight: 650;
+    }
+
+    .feature-card p {
+        color: #94a3b8;
+        line-height: 1.65;
+        font-size: 14px;
+        margin: 0;
+    }
+
+    /* WORKFLOW */
+
+    .workflow-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 12px;
+    }
+
+    .workflow-step {
+        background: #0f172a;
+        border: 1px solid #1e293b;
+        border-radius: 14px;
+        padding: 24px 18px;
+        text-align: center;
+    }
+
+    .workflow-number {
+        width: 34px;
+        height: 34px;
+        margin: 0 auto 14px;
+        border-radius: 50%;
+        background: #1d4ed8;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    .workflow-step h4 {
+        color: #e2e8f0;
+        font-size: 15px;
+        margin-bottom: 8px;
+    }
+
+    .workflow-step p {
+        color: #64748b;
+        font-size: 12px;
+        line-height: 1.5;
+        margin: 0;
+    }
+
+    /* MANAGEMENT */
+
+    .management-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 14px;
+    }
+
+    .management-card {
+        text-decoration: none;
+        background: #0f172a;
+        border: 1px solid #1e293b;
+        border-radius: 14px;
+        padding: 22px 18px;
+        transition: all 0.2s ease;
+    }
+
+        .management-card:hover {
+            transform: translateY(-3px);
+            border-color: #3b82f6;
+            background: #111c32;
+        }
+
+        .management-card h4 {
+            color: #f8fafc;
+            font-size: 14px;
+            margin-bottom: 7px;
+        }
+
+        .management-card p {
+            color: #64748b;
+            font-size: 12px;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+    /* RESPONSIBLE AI */
+
+    .responsible-ai {
+        margin-top: 70px;
+        background: linear-gradient( 135deg, rgba(37, 99, 235, 0.10), rgba(124, 58, 237, 0.08) );
+        border: 1px solid #243452;
+        border-radius: 20px;
+        padding: 38px;
+        text-align: center;
+    }
+
+        .responsible-ai h2 {
+            color: #f8fafc;
+            font-size: 25px;
+            margin-bottom: 12px;
+        }
+
+        .responsible-ai p {
+            max-width: 780px;
+            margin: 0 auto;
+            color: #94a3b8;
+            line-height: 1.7;
+            font-size: 14px;
+        }
+
+    .ai-highlight {
+        color: #93c5fd;
+        font-weight: 600;
+    }
+
+    /* RESPONSIVE */
+
+    @@media (max-width: 1000px) {
+
+        .feature-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        .workflow-grid {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        .management-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+
+    @@media (max-width: 650px) {
+
+        .home-page {
+            padding: 45px 18px 70px;
+        }
+
+        .hero-title {
+            letter-spacing: -1.5px;
+        }
+
+        .hero-description {
+            font-size: 16px;
+        }
+
+        .feature-grid,
+        .workflow-grid,
+        .management-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .responsible-ai {
+            padding: 28px 20px;
+        }
+    }
+</style>
+
+
+<div class="home-page">
+
+    <div class="home-container">
+
+        <!-- HERO -->
+
+        <section class="hero-section">
+
+            <div class="hero-badge">
+                <span class="hero-badge-dot"></span>
+                Release Readiness Platform
+            </div>
+
+            <h1 class="hero-title">
+                Release Communication
+                <span>&amp; Readiness Assistant</span>
+            </h1>
+
+            <p class="hero-description">
+                Transform structured release information and QA evidence
+                into clear, traceable and human-reviewed communication
+                for technical teams and nontechnical stakeholders.
+            </p>
+
+            <div class="hero-actions">
+
+                <a asp-controller="Releases"
+                   asp-action="Index"
+                   class="hero-button hero-button-primary">
+                    Manage Releases
+                </a>
+
+                <a asp-controller="GeneratedStatements"
+                   asp-action="Index"
+                   class="hero-button hero-button-secondary">
+                    View Statements
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- FEATURES -->
+
+        <section class="section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Built for Release Readiness
+                </h2>
+
+                <p>
+                    A structured workflow from release package to reviewed communication.
+                </p>
+
+            </div>
+
+            <div class="feature-grid">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        ◈
+                    </div>
+
+                    <h3>
+                        Structured Release Package
+                    </h3>
+
+                    <p>
+                        Capture completed features, bug fixes, changed
+                        behaviour, QA results, limitations, migration
+                        notes and affected user groups.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        ◇
+                    </div>
+
+                    <h3>
+                        Impact Classification
+                    </h3>
+
+                    <p>
+                        Identify how release changes affect different
+                        user groups and highlight areas requiring
+                        additional communication.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        QA Evidence
+                    </h3>
+
+                    <p>
+                        Connect communication statements to supplied QA
+                        evidence so claims can be checked against
+                        documented release validation.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        ✦
+                    </div>
+
+                    <h3>
+                        AI-Assisted Communication
+                    </h3>
+
+                    <p>
+                        Generate separate internal technical and
+                        nontechnical stakeholder summaries from the
+                        structured release information.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        ✓
+                    </div>
+
+                    <h3>
+                        Human Review
+                    </h3>
+
+                    <p>
+                        Review, edit, approve or reject generated
+                        statements before they become part of the
+                        final release communication.
+                    </p>
+
+                </div>
+
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+                        #
+                    </div>
+
+                    <h3>
+                        Evidence Traceability
+                    </h3>
+
+                    <p>
+                        Preserve evidence references and identify
+                        unsupported or stale statements when release
+                        information changes.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- WORKFLOW -->
+
+        <section class="section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Release Communication Workflow
+                </h2>
+
+                <p>
+                    A controlled process designed around evidence and human review.
+                </p>
+
+            </div>
+
+            <div class="workflow-grid">
+
+                <div class="workflow-step">
+
+                    <div class="workflow-number">
+                        01
+                    </div>
+
+                    <h4>
+                        Capture
+                    </h4>
+
+                    <p>
+                        Add release items,
+                        affected users and
+                        supporting information.
+                    </p>
+
+                </div>
+
+
+                <div class="workflow-step">
+
+                    <div class="workflow-number">
+                        02
+                    </div>
+
+                    <h4>
+                        Validate
+                    </h4>
+
+                    <p>
+                        Check required release
+                        sections and available
+                        QA evidence.
+                    </p>
+
+                </div>
+
+
+                <div class="workflow-step">
+
+                    <div class="workflow-number">
+                        03
+                    </div>
+
+                    <h4>
+                        Generate
+                    </h4>
+
+                    <p>
+                        Create audience-specific
+                        communication statements.
+                    </p>
+
+                </div>
+
+
+                <div class="workflow-step">
+
+                    <div class="workflow-number">
+                        04
+                    </div>
+
+                    <h4>
+                        Review
+                    </h4>
+
+                    <p>
+                        Human reviewers edit,
+                        approve or reject
+                        generated content.
+                    </p>
+
+                </div>
+
+
+                <div class="workflow-step">
+
+                    <div class="workflow-number">
+                        05
+                    </div>
+
+                    <h4>
+                        Finalize
+                    </h4>
+
+                    <p>
+                        Produce a reviewed
+                        release communication
+                        brief.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- MANAGEMENT -->
+
+        <section class="section">
+
+            <div class="section-heading">
+
+                <h2>
+                    Manage Release Information
+                </h2>
+
+                <p>
+                    Access each part of the release communication workflow.
+                </p>
+
+            </div>
+
+            <div class="management-grid">
+
+                <a asp-controller="Releases"
+                   asp-action="Index"
+                   class="management-card">
+
+                    <h4>
+                        Releases
+                    </h4>
+
+                    <p>
+                        Manage release versions and status.
+                    </p>
+
+                </a>
+
+
+                <a asp-controller="ReleaseItems"
+                   asp-action="Index"
+                   class="management-card">
+
+                    <h4>
+                        Release Items
+                    </h4>
+
+                    <p>
+                        Manage features, fixes and behaviour changes.
+                    </p>
+
+                </a>
+
+
+                <a asp-controller="Qaevidences"
+                   asp-action="Index"
+                   class="management-card">
+
+                    <h4>
+                        QA Evidence
+                    </h4>
+
+                    <p>
+                        Manage test evidence supporting release claims.
+                    </p>
+
+                </a>
+
+
+                <a asp-controller="GeneratedStatements"
+                   asp-action="Index"
+                   class="management-card">
+
+                    <h4>
+                        Generated Statements
+                    </h4>
+
+                    <p>
+                        Review generated communication statements.
+                    </p>
+
+                </a>
+
+
+                <a asp-controller="ReviewDecisions"
+                   asp-action="Index"
+                   class="management-card">
+
+                    <h4>
+                        Review Decisions
+                    </h4>
+
+                    <p>
+                        Track human review outcomes and edits.
+                    </p>
+
+                </a>
+
+            </div>
+
+        </section>
+
+
+        <!-- RESPONSIBLE AI -->
+
+        <section class="responsible-ai">
+
+            <h2>
+                Human-Controlled AI Workflow
+            </h2>
+
+            <p>
+
+                The assistant is designed to support release communication,
+                not replace release governance.
+
+                <span class="ai-highlight">
+                    AI-generated content remains subject to human review
+                    and approval.
+                </span>
+
+                The assistant does not deploy releases and does not
+                independently mark a release as approved.
+
+            </p>
+
+        </section>
+
+    </div>
+
+</div>

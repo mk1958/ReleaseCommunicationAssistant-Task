@@ -1,0 +1,308 @@
+﻿@model ReleaseCommunicationAssistant_Task.Models.ReleaseItem
+
+@{
+    ViewData["Title"] = "Delete Release Item";
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background: radial-gradient(circle at 10% 10%, rgba(239,68,68,.10), transparent 30%), radial-gradient(circle at 90% 20%, rgba(139,92,246,.10), transparent 30%), linear-gradient(135deg,#07111f,#0f172a 55%,#172554);
+        min-height: 100vh;
+    }
+
+    .page {
+        min-height: calc(100vh - 70px);
+        padding: 45px 25px;
+    }
+
+    .card {
+        max-width: 750px;
+        margin: auto;
+        background: rgba(15,23,42,.95);
+        border: 1px solid rgba(239,68,68,.20);
+        border-radius: 22px;
+        padding: 35px;
+        box-shadow: 0 25px 60px rgba(0,0,0,.30);
+    }
+
+    .warning-icon {
+        width: 72px;
+        height: 72px;
+        margin: 0 auto 20px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(239,68,68,.12);
+        border: 1px solid rgba(239,68,68,.25);
+        color: #f87171;
+        font-size: 32px;
+        font-weight: 800;
+    }
+
+    .card h1 {
+        text-align: center;
+        color: #f8fafc;
+        font-size: 28px;
+        margin: 0;
+        font-weight: 800;
+    }
+
+    .warning-text {
+        text-align: center;
+        color: #94a3b8;
+        font-size: 14px;
+        margin: 10px 0 28px;
+        line-height: 1.6;
+    }
+
+    .item-info {
+        background: #0b1220;
+        border: 1px solid #1e293b;
+        border-radius: 13px;
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .info-row {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(148,163,184,.08);
+    }
+
+        .info-row:last-child {
+            border-bottom: none;
+        }
+
+    .label {
+        color: #64748b;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+    }
+
+    .value {
+        color: #e2e8f0;
+        font-size: 13px;
+        font-weight: 650;
+        text-align: right;
+        max-width: 60%;
+        word-break: break-word;
+    }
+
+    .danger-note {
+        background: rgba(239,68,68,.07);
+        border: 1px solid rgba(239,68,68,.15);
+        border-radius: 10px;
+        padding: 14px;
+        color: #fca5a5;
+        font-size: 12px;
+        margin-bottom: 25px;
+        line-height: 1.5;
+    }
+
+    .button-row {
+        display: flex;
+        justify-content: center;
+        gap: 10px;
+    }
+
+    .btn {
+        border: none;
+        padding: 11px 20px;
+        border-radius: 9px;
+        font-size: 12px;
+        font-weight: 750;
+        text-decoration: none;
+        cursor: pointer;
+        transition: .2s;
+    }
+
+    .btn-secondary {
+        background: #1e293b;
+        color: #cbd5e1;
+        border: 1px solid #334155;
+    }
+
+    .btn-danger {
+        background: linear-gradient(135deg,#dc2626,#b91c1c);
+        color: white;
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    @@media (max-width: 600px) {
+
+        .page {
+            padding: 25px 15px;
+        }
+
+        .card {
+            padding: 25px 18px;
+        }
+
+        .button-row {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+            text-align: center;
+        }
+
+        .info-row {
+            flex-direction: column;
+            gap: 5px;
+        }
+
+        .value {
+            text-align: left;
+            max-width: 100%;
+        }
+    }
+</style>
+
+
+<div class="page">
+
+    <div class="card">
+
+        <div class="warning-icon">
+            !
+        </div>
+
+        <h1>
+            Delete Release Item?
+        </h1>
+
+        <p class="warning-text">
+            Are you sure you want to delete this release item?
+            This action cannot be undone.
+        </p>
+
+
+        <div class="item-info">
+
+            <div class="info-row">
+
+                <span class="label">
+                    Item ID
+                </span>
+
+                <span class="value">
+                    @Model.ReleaseItemId
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="label">
+                    Release ID
+                </span>
+
+                <span class="value">
+                    @Model.ReleaseId
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="label">
+                    Evidence Code
+                </span>
+
+                <span class="value">
+                    @Model.EvidenceCode
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="label">
+                    Item Type
+                </span>
+
+                <span class="value">
+                    @Model.ItemType
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="label">
+                    Title
+                </span>
+
+                <span class="value">
+                    @Model.Title
+                </span>
+
+            </div>
+
+
+            <div class="info-row">
+
+                <span class="label">
+                    User Impact
+                </span>
+
+                <span class="value">
+                    @Model.UserImpact
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <div class="danger-note">
+            ⚠ This will permanently remove the release item
+            from the release package.
+        </div>
+
+
+        <form asp-action="Delete"
+              method="post">
+
+            @Html.AntiForgeryToken()
+
+            <input type="hidden"
+                   name="id"
+                   value="@Model.ReleaseItemId" />
+
+            <div class="button-row">
+
+                <a asp-action="Index"
+                   class="btn btn-secondary">
+                    Cancel
+                </a>
+
+                <button type="submit"
+                        class="btn btn-danger">
+                    Delete Release Item
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>

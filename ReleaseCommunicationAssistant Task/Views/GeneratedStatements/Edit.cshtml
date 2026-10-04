@@ -1,0 +1,627 @@
+﻿@model ReleaseCommunicationAssistant_Task.Models.GeneratedStatements
+
+@{
+    ViewData["Title"] = "Edit Generated Statement";
+}
+
+<style>
+    body {
+        background: #f1f5f9;
+    }
+
+    .edit-page {
+        padding: 30px;
+    }
+
+    /* Header */
+    .edit-header {
+        background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 100%);
+        color: white;
+        padding: 28px 32px;
+        border-radius: 18px;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+    }
+
+        .edit-header h1 {
+            margin: 0;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .edit-header p {
+            margin: 8px 0 0;
+            color: #cbd5e1;
+            font-size: 14px;
+        }
+
+    /* Main Card */
+    .edit-card {
+        background: white;
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        box-shadow: 0 8px 25px rgba(15, 23, 42, 0.07);
+        padding: 30px;
+    }
+
+    /* Section */
+    .form-section {
+        margin-bottom: 28px;
+    }
+
+    .section-title {
+        font-size: 16px;
+        font-weight: 700;
+        color: #0f172a;
+        margin-bottom: 18px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid #e2e8f0;
+    }
+
+        .section-title span {
+            color: #64748b;
+            font-size: 12px;
+            font-weight: 400;
+            margin-left: 8px;
+        }
+
+    /* Labels */
+    .form-label {
+        color: #334155;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 7px;
+    }
+
+    /* Inputs */
+    .form-control,
+    .form-select {
+        border: 1px solid #cbd5e1;
+        border-radius: 8px;
+        padding: 10px 12px;
+        font-size: 13px;
+        color: #0f172a;
+        background: #fff;
+        transition: all .2s ease;
+    }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
+        }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 100px;
+        line-height: 1.5;
+    }
+
+    /* Readonly Release ID */
+    .readonly-field {
+        background: #f8fafc !important;
+        color: #64748b !important;
+        cursor: not-allowed;
+    }
+
+    /* Checkboxes */
+    .status-box {
+        background: #f8fafc;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        padding: 16px;
+        height: 100%;
+    }
+
+    .form-check {
+        margin: 0;
+        display: flex;
+        align-items: center;
+        gap: 9px;
+    }
+
+    .form-check-input {
+        width: 18px;
+        height: 18px;
+        margin: 0;
+        cursor: pointer;
+    }
+
+        .form-check-input:checked {
+            background-color: #2563eb;
+            border-color: #2563eb;
+        }
+
+    .form-check-label {
+        font-size: 13px;
+        font-weight: 600;
+        color: #334155;
+        cursor: pointer;
+    }
+
+    .help-text {
+        color: #64748b;
+        font-size: 11px;
+        margin-top: 7px;
+        line-height: 1.4;
+    }
+
+    /* Validation */
+    .text-danger {
+        font-size: 11px;
+        margin-top: 5px;
+        display: block;
+    }
+
+    .validation-summary-errors {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #b91c1c;
+        border-radius: 8px;
+        padding: 12px 15px;
+        margin-bottom: 20px;
+        font-size: 13px;
+    }
+
+    /* Footer */
+    .form-footer {
+        border-top: 1px solid #e2e8f0;
+        padding-top: 22px;
+        margin-top: 10px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+    }
+
+    .btn-save {
+        background: #2563eb;
+        border: none;
+        color: white;
+        padding: 10px 22px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: .2s;
+    }
+
+        .btn-save:hover {
+            background: #1d4ed8;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+    .btn-cancel {
+        background: #f1f5f9;
+        border: 1px solid #cbd5e1;
+        color: #475569;
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        text-decoration: none;
+        transition: .2s;
+    }
+
+        .btn-cancel:hover {
+            background: #e2e8f0;
+            color: #334155;
+        }
+
+    /* Responsive */
+    @@media (max-width: 768px) {
+        .edit-page {
+            padding: 18px;
+        }
+
+        .edit-card {
+            padding: 20px;
+        }
+
+        .edit-header {
+            padding: 22px;
+        }
+
+        .form-footer {
+            flex-direction: column-reverse;
+            align-items: stretch;
+        }
+
+        .btn-save,
+        .btn-cancel {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+<div class="edit-page">
+
+    <!-- HEADER -->
+    <div class="edit-header">
+        <h1>Edit Generated Statement</h1>
+
+        <p>
+            Review and update the generated release communication before approval.
+        </p>
+    </div>
+
+    <!-- FORM CARD -->
+    <div class="edit-card">
+
+        <form asp-action="Edit" method="post">
+
+            <div asp-validation-summary="ModelOnly"
+                 class="text-danger">
+            </div>
+
+            <input type="hidden" asp-for="GeneratedStatementId" />
+
+            <!-- BASIC INFORMATION -->
+            <div class="form-section">
+
+                <div class="section-title">
+                    Statement Information
+                    <span>Basic release communication details</span>
+                </div>
+
+                <div class="row g-4">
+
+                    <!-- Release -->
+                    <div class="col-md-4">
+
+                        <label asp-for="ReleaseId"
+                               class="form-label">
+                            Release ID
+                        </label>
+
+                        <input asp-for="ReleaseId"
+                               class="form-control readonly-field"
+                               readonly />
+
+                        <span asp-validation-for="ReleaseId"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <!-- Statement Code -->
+                    <div class="col-md-4">
+
+                        <label asp-for="StatementCode"
+                               class="form-label">
+                            Statement Code
+                        </label>
+
+                        <input asp-for="StatementCode"
+                               class="form-control" />
+
+                        <span asp-validation-for="StatementCode"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <!-- Audience -->
+                    <div class="col-md-4">
+
+                        <label asp-for="Audience"
+                               class="form-label">
+                            Audience
+                        </label>
+
+                        <select asp-for="Audience"
+                                class="form-select">
+
+                            <option value="">
+                                Select Audience
+                            </option>
+
+                            <option value="Technical">
+                                Technical
+                            </option>
+
+                            <option value="Stakeholder">
+                                Stakeholder
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="Audience"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <!-- Statement Type -->
+                    <div class="col-md-6">
+
+                        <label asp-for="StatementType"
+                               class="form-label">
+                            Statement Type
+                        </label>
+
+                        <input asp-for="StatementType"
+                               class="form-control"
+                               placeholder="Example: Feature, Bug Fix, Risk" />
+
+                        <span asp-validation-for="StatementType"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                    <!-- Impact -->
+                    <div class="col-md-6">
+
+                        <label asp-for="ImpactLevel"
+                               class="form-label">
+                            Impact Level
+                        </label>
+
+                        <select asp-for="ImpactLevel"
+                                class="form-select">
+
+                            <option value="">
+                                Select Impact Level
+                            </option>
+
+                            <option value="Low">
+                                Low
+                            </option>
+
+                            <option value="Medium">
+                                Medium
+                            </option>
+
+                            <option value="High">
+                                High
+                            </option>
+
+                        </select>
+
+                        <span asp-validation-for="ImpactLevel"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATEMENT CONTENT -->
+            <div class="form-section">
+
+                <div class="section-title">
+                    Statement Content
+                    <span>Edit the generated communication</span>
+                </div>
+
+                <div class="mb-4">
+
+                    <label asp-for="StatementText"
+                           class="form-label">
+                        Statement
+                    </label>
+
+                    <textarea asp-for="StatementText"
+                              class="form-control"
+                              rows="6"
+                              placeholder="Enter the release communication statement...">
+                    </textarea>
+
+                    <span asp-validation-for="StatementText"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+                <div>
+
+                    <label asp-for="EvidenceReferences"
+                           class="form-label">
+                        Evidence References
+                    </label>
+
+                    <textarea asp-for="EvidenceReferences"
+                              class="form-control"
+                              rows="3"
+                              placeholder="Example: QA-001, QA-002">
+                    </textarea>
+
+                    <div class="help-text">
+                        Reference the QA evidence or release items supporting this statement.
+                    </div>
+
+                    <span asp-validation-for="EvidenceReferences"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- VALIDATION & REVIEW -->
+            <div class="form-section">
+
+                <div class="section-title">
+                    Validation & Review
+                    <span>Verify evidence and statement freshness</span>
+                </div>
+
+                <div class="row g-4">
+
+                    <!-- Supported -->
+                    <div class="col-md-4">
+
+                        <div class="status-box">
+
+                            <div class="form-check">
+
+                                <input asp-for="IsSupported"
+                                       class="form-check-input" />
+
+                                <label asp-for="IsSupported"
+                                       class="form-check-label">
+                                    Evidence Supported
+                                </label>
+
+                            </div>
+
+                            <div class="help-text">
+                                Indicates whether the statement is supported by supplied evidence.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Stale -->
+                    <div class="col-md-4">
+
+                        <div class="status-box">
+
+                            <div class="form-check">
+
+                                <input asp-for="IsStale"
+                                       class="form-check-input" />
+
+                                <label asp-for="IsStale"
+                                       class="form-check-label">
+                                    Statement Is Stale
+                                </label>
+
+                            </div>
+
+                            <div class="help-text">
+                                Mark this when the release package has changed after generation.
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- Status -->
+                    <div class="col-md-4">
+
+                        <div class="status-box">
+
+                            <label asp-for="Status"
+                                   class="form-label">
+                                Review Status
+                            </label>
+
+                            <select asp-for="Status"
+                                    class="form-select">
+
+                                <option value="Draft">
+                                    Draft
+                                </option>
+
+                                <option value="Edited">
+                                    Edited
+                                </option>
+
+                                <option value="Approved">
+                                    Approved
+                                </option>
+
+                                <option value="Rejected">
+                                    Rejected
+                                </option>
+
+                            </select>
+
+                            <span asp-validation-for="Status"
+                                  class="text-danger">
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="mt-4">
+
+                    <label asp-for="StaleReason"
+                           class="form-label">
+                        Stale Reason
+                    </label>
+
+                    <textarea asp-for="StaleReason"
+                              class="form-control"
+                              rows="3"
+                              placeholder="Explain why this statement is stale, if applicable...">
+                    </textarea>
+
+                    <span asp-validation-for="StaleReason"
+                          class="text-danger">
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- AI INFORMATION -->
+            <div class="form-section">
+
+                <div class="section-title">
+                    AI Information
+                    <span>Generation metadata</span>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+
+                        <label asp-for="Aimodel"
+                               class="form-label">
+                            AI Model
+                        </label>
+
+                        <input asp-for="Aimodel"
+                               class="form-control"
+                               placeholder="Example: GPT-4o" />
+
+                        <span asp-validation-for="Aimodel"
+                              class="text-danger">
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+            <div class="form-footer">
+
+                <a asp-action="Index"
+                   class="btn-cancel">
+                    ← Back to Statements
+                </a>
+
+                <button type="submit"
+                        class="btn-save">
+                    Save Changes
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

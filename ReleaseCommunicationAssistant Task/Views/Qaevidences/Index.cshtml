@@ -1,0 +1,603 @@
+﻿@model IEnumerable<ReleaseCommunicationAssistant_Task.Models.Qaevidence>
+
+@{
+    ViewData["Title"] = "QA Evidence";
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background: radial-gradient(circle at 10% 10%, rgba(14, 165, 233, .16), transparent 28%), radial-gradient(circle at 90% 20%, rgba(139, 92, 246, .16), transparent 30%), linear-gradient(135deg, #07111f, #0f172a 55%, #172554);
+        min-height: 100vh;
+    }
+
+    .qa-page {
+        padding: 35px;
+        min-height: calc(100vh - 70px);
+    }
+
+    /* HEADER */
+
+    .qa-header {
+        position: relative;
+        overflow: hidden;
+        padding: 32px;
+        border-radius: 22px;
+        background: linear-gradient(135deg, #0f172a, #164e63, #312e81);
+        color: white;
+        margin-bottom: 25px;
+        box-shadow: 0 20px 50px rgba(0,0,0,.25);
+        border: 1px solid rgba(255,255,255,.08);
+    }
+
+        .qa-header::after {
+            content: "";
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: rgba(56,189,248,.12);
+            right: -50px;
+            top: -70px;
+            filter: blur(4px);
+        }
+
+    .qa-header-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .qa-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: rgba(56,189,248,.12);
+        border: 1px solid rgba(125,211,252,.25);
+        color: #7dd3fc;
+        font-size: 10px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        margin-bottom: 12px;
+    }
+
+    .qa-header h1 {
+        margin: 0;
+        font-size: 31px;
+        font-weight: 800;
+    }
+
+    .qa-header p {
+        margin: 8px 0 0;
+        color: #cbd5e1;
+        font-size: 14px;
+    }
+
+    /* TOOLBAR */
+
+    .qa-toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        background: rgba(15,23,42,.85);
+        border: 1px solid rgba(148,163,184,.14);
+        padding: 18px 22px;
+        border-radius: 16px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,.18);
+    }
+
+    .qa-toolbar-title {
+        color: #f8fafc;
+        font-size: 16px;
+        font-weight: 750;
+    }
+
+    .qa-toolbar-subtitle {
+        color: #94a3b8;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    .create-btn {
+        background: linear-gradient(135deg, #0284c7, #4f46e5);
+        color: white !important;
+        padding: 10px 18px;
+        border-radius: 9px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+        transition: .25s;
+        box-shadow: 0 8px 18px rgba(37,99,235,.22);
+    }
+
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(37,99,235,.32);
+        }
+
+    /* TABLE */
+
+    .qa-card {
+        background: rgba(15,23,42,.88);
+        border: 1px solid rgba(148,163,184,.14);
+        border-radius: 19px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0,0,0,.25);
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+    }
+
+    .qa-table {
+        width: 100%;
+        min-width: 1050px;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        .qa-table thead {
+            background: rgba(30,41,59,.95);
+        }
+
+        .qa-table th {
+            padding: 15px;
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            white-space: nowrap;
+            border-bottom: 1px solid rgba(148,163,184,.14);
+        }
+
+        .qa-table td {
+            padding: 16px;
+            color: #cbd5e1;
+            font-size: 13px;
+            border-bottom: 1px solid rgba(148,163,184,.08);
+            vertical-align: middle;
+        }
+
+        .qa-table tbody tr {
+            transition: .18s;
+        }
+
+            .qa-table tbody tr:hover {
+                background: rgba(56,189,248,.045);
+            }
+
+            .qa-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+    /* EVIDENCE CODE */
+
+    .evidence-code {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 7px;
+        background: rgba(99,102,241,.13);
+        color: #a5b4fc;
+        font-family: Consolas, monospace;
+        font-size: 11px;
+        font-weight: 700;
+    }
+
+    /* RELEASE */
+
+    .release-id {
+        color: #60a5fa;
+        font-weight: 700;
+    }
+
+    /* TEST AREA */
+
+    .test-area {
+        color: #f8fafc;
+        font-weight: 600;
+    }
+
+    /* DESCRIPTION */
+
+    .description {
+        max-width: 350px;
+        color: #94a3b8;
+        line-height: 1.5;
+    }
+
+    /* RESULT BADGES */
+
+    .result {
+        display: inline-flex;
+        padding: 6px 11px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 700;
+    }
+
+    .result-passed {
+        background: rgba(34,197,94,.12);
+        color: #4ade80;
+    }
+
+    .result-failed {
+        background: rgba(239,68,68,.12);
+        color: #f87171;
+    }
+
+    .result-partial {
+        background: rgba(245,158,11,.12);
+        color: #fbbf24;
+    }
+
+    .result-not-tested {
+        background: rgba(148,163,184,.12);
+        color: #cbd5e1;
+    }
+
+    /* DATE */
+
+    .test-date {
+        white-space: nowrap;
+        color: #94a3b8;
+        font-size: 11px;
+    }
+
+    /* ACTIONS */
+
+    .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        width: 110px;
+    }
+
+    .action-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 8px;
+        border-radius: 7px;
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: 700;
+        transition: .2s;
+    }
+
+    .edit-btn {
+        background: rgba(59,130,246,.12);
+        color: #60a5fa;
+        border: 1px solid rgba(59,130,246,.15);
+    }
+
+        .edit-btn:hover {
+            background: rgba(59,130,246,.22);
+            color: #93c5fd;
+            transform: translateX(3px);
+        }
+
+    .details-btn {
+        background: rgba(34,197,94,.10);
+        color: #4ade80;
+        border: 1px solid rgba(34,197,94,.15);
+    }
+
+        .details-btn:hover {
+            background: rgba(34,197,94,.20);
+            color: #86efac;
+            transform: translateX(3px);
+        }
+
+    .claim-btn {
+        background: rgba(245,158,11,.10);
+        color: #fbbf24;
+        border: 1px solid rgba(245,158,11,.15);
+    }
+
+        .claim-btn:hover {
+            background: rgba(245,158,11,.20);
+            color: #fde68a;
+            transform: translateX(3px);
+        }
+
+    .delete-btn {
+        background: rgba(239,68,68,.10);
+        color: #f87171;
+        border: 1px solid rgba(239,68,68,.15);
+    }
+
+        .delete-btn:hover {
+            background: rgba(239,68,68,.20);
+            color: #fca5a5;
+            transform: translateX(3px);
+        }
+
+    /* EMPTY */
+
+    .empty-state {
+        text-align: center;
+        padding: 70px 20px;
+        color: #94a3b8;
+    }
+
+        .empty-state h3 {
+            color: #f8fafc;
+            margin-bottom: 8px;
+        }
+
+    /* RESPONSIVE */
+
+    @@media (max-width: 700px) {
+        .qa-page {
+            padding: 18px;
+        }
+
+        .qa-toolbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .qa-header h1 {
+            font-size: 25px;
+        }
+    }
+</style>
+
+<div class="qa-page">
+
+    <!-- HEADER -->
+
+    <div class="qa-header">
+
+        <div class="qa-header-content">
+
+            <span class="qa-badge">
+                Release Quality
+            </span>
+
+            <h1>
+                QA Evidence
+            </h1>
+
+            <p>
+                Review test evidence and validation results associated with releases.
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- TOOLBAR -->
+
+    <div class="qa-toolbar">
+
+        <div>
+
+            <div class="qa-toolbar-title">
+                QA Evidence Records
+            </div>
+
+            <div class="qa-toolbar-subtitle">
+                Track testing results and supporting release evidence.
+            </div>
+
+        </div>
+
+        <a asp-controller="Qaevidences"
+           asp-action="Create"
+           class="create-btn">
+            + Add QA Evidence
+        </a>
+
+    </div>
+
+    <!-- TABLE -->
+
+    <div class="qa-card">
+
+        <div class="table-scroll">
+
+            @if (Model != null && Model.Any())
+            {
+                <table class="qa-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Evidence
+                            </th>
+
+                            <th>
+                                Release
+                            </th>
+
+                            <th>
+                                Test Area
+                            </th>
+
+                            <th>
+                                Evidence Description
+                            </th>
+
+                            <th>
+                                Result
+                            </th>
+
+                            <th>
+                                Test Date
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <!-- EVIDENCE -->
+
+                                <td>
+
+                                    <span class="evidence-code">
+                                        @item.EvidenceCode
+                                    </span>
+
+                                </td>
+
+                                <!-- RELEASE -->
+
+                                <td>
+
+                                    <span class="release-id">
+                                        Release #@item.ReleaseId
+                                    </span>
+
+                                </td>
+
+                                <!-- TEST AREA -->
+
+                                <td>
+
+                                    <span class="test-area">
+                                        @item.TestArea
+                                    </span>
+
+                                </td>
+
+                                <!-- DESCRIPTION -->
+
+                                <td>
+
+                                    <div class="description">
+                                        @item.EvidenceDescription
+                                    </div>
+
+                                </td>
+
+                                <!-- RESULT -->
+
+                                <td>
+
+                                    @if (item.Result == "Passed")
+                                    {
+                                        <span class="result result-passed">
+                                            ✓ Passed
+                                        </span>
+                                    }
+                                    else if (item.Result == "Failed")
+                                    {
+                                        <span class="result result-failed">
+                                            ✕ Failed
+                                        </span>
+                                    }
+                                    else if (item.Result == "Partial")
+                                    {
+                                        <span class="result result-partial">
+                                            ⚠ Partial
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span class="result result-not-tested">
+                                            Not Tested
+                                        </span>
+                                    }
+
+                                </td>
+
+                                <!-- DATE -->
+
+                                <td>
+
+                                    <span class="test-date">
+                                        @item.TestDate
+                                    </span>
+
+                                </td>
+
+                                <!-- ACTIONS -->
+
+                                <td>
+
+                                    <div class="actions">
+
+                                        <a asp-controller="Qaevidences"
+                                           asp-action="Edit"
+                                           asp-route-id="@item.QaevidenceId"
+                                           class="action-btn edit-btn">
+                                            ✎ Edit
+                                        </a>
+
+                                        <a asp-controller="Qaevidences"
+                                           asp-action="Details"
+                                           asp-route-id="@item.QaevidenceId"
+                                           class="action-btn details-btn">
+                                            ◉ Details
+                                        </a>
+
+                                        <a asp-controller="Qaevidences"
+                                           asp-action="ClaimCheck"
+                                           asp-route-id="@item.QaevidenceId"
+                                           class="action-btn claim-btn">
+                                            ✓ Claim Check
+                                        </a>
+
+                                        <a asp-controller="Qaevidences"
+                                           asp-action="Delete"
+                                           asp-route-id="@item.QaevidenceId"
+                                           class="action-btn delete-btn">
+                                            × Delete
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+            }
+            else
+            {
+                <div class="empty-state">
+
+                    <h3>
+                        No QA Evidence
+                    </h3>
+
+                    <p>
+                        No QA evidence records have been added yet.
+                    </p>
+
+                    <a asp-controller="Qaevidences"
+                       asp-action="Create"
+                       class="create-btn">
+                        + Add QA Evidence
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

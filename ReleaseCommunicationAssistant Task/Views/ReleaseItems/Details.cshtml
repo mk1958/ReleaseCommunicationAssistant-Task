@@ -1,0 +1,503 @@
+﻿@model ReleaseCommunicationAssistant_Task.Models.ReleaseItem
+
+@{
+    ViewData["Title"] = "Release Item Details";
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background: radial-gradient(circle at 10% 10%, rgba(14,165,233,.14), transparent 28%), radial-gradient(circle at 90% 20%, rgba(139,92,246,.14), transparent 30%), linear-gradient(135deg,#07111f,#0f172a 55%,#172554);
+        min-height: 100vh;
+    }
+
+    .page {
+        min-height: calc(100vh - 70px);
+        padding: 35px;
+    }
+
+    .header {
+        background: linear-gradient(135deg,#0f172a,#164e63,#312e81);
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: 22px;
+        padding: 30px;
+        color: white;
+        margin-bottom: 25px;
+        box-shadow: 0 20px 45px rgba(0,0,0,.25);
+    }
+
+    .badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: rgba(56,189,248,.12);
+        border: 1px solid rgba(125,211,252,.25);
+        color: #7dd3fc;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        margin-bottom: 12px;
+    }
+
+    .header h1 {
+        margin: 0;
+        font-size: 30px;
+        font-weight: 800;
+    }
+
+    .header p {
+        margin: 8px 0 0;
+        color: #cbd5e1;
+        font-size: 14px;
+    }
+
+    .card {
+        max-width: 1000px;
+        margin: auto;
+        background: rgba(15,23,42,.94);
+        border: 1px solid rgba(148,163,184,.14);
+        border-radius: 20px;
+        padding: 30px;
+        box-shadow: 0 20px 50px rgba(0,0,0,.25);
+    }
+
+    .section {
+        margin-bottom: 30px;
+    }
+
+    .section-title {
+        color: #f8fafc;
+        font-size: 17px;
+        font-weight: 750;
+        margin-bottom: 18px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid rgba(148,163,184,.12);
+    }
+
+        .section-title span {
+            color: #38bdf8;
+            margin-right: 8px;
+        }
+
+    .info-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+
+    .info-box {
+        background: #0b1220;
+        border: 1px solid #1e293b;
+        border-radius: 10px;
+        padding: 16px;
+    }
+
+    .full {
+        grid-column: 1 / -1;
+    }
+
+    .label {
+        color: #64748b;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .06em;
+        margin-bottom: 7px;
+    }
+
+    .value {
+        color: #e2e8f0;
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1.6;
+        word-break: break-word;
+    }
+
+    .code {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 7px;
+        background: rgba(99,102,241,.12);
+        border: 1px solid rgba(99,102,241,.18);
+        color: #a5b4fc;
+        font-family: Consolas, monospace;
+        font-size: 11px;
+    }
+
+    .type {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        background: rgba(56,189,248,.10);
+        color: #7dd3fc;
+        font-size: 10px;
+        font-weight: 750;
+    }
+
+    .impact {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 750;
+    }
+
+    .high {
+        background: rgba(239,68,68,.12);
+        color: #f87171;
+    }
+
+    .medium {
+        background: rgba(245,158,11,.12);
+        color: #fbbf24;
+    }
+
+    .low {
+        background: rgba(34,197,94,.12);
+        color: #4ade80;
+    }
+
+    .button-row {
+        display: flex;
+        justify-content: flex-end;
+        gap: 10px;
+        padding-top: 20px;
+        border-top: 1px solid rgba(148,163,184,.12);
+    }
+
+    .btn {
+        display: inline-block;
+        padding: 11px 18px;
+        border-radius: 9px;
+        text-decoration: none;
+        font-size: 12px;
+        font-weight: 750;
+        transition: .2s;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg,#0284c7,#4f46e5);
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #1e293b;
+        color: #cbd5e1;
+        border: 1px solid #334155;
+    }
+
+    .btn-danger {
+        background: rgba(239,68,68,.12);
+        color: #f87171;
+        border: 1px solid rgba(239,68,68,.2);
+    }
+
+    .btn:hover {
+        transform: translateY(-2px);
+    }
+
+    @@media (max-width: 700px) {
+        .page {
+            padding: 18px;
+        }
+
+        .card {
+            padding: 20px;
+        }
+
+        .info-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .full {
+            grid-column: auto;
+        }
+
+        .button-row {
+            flex-direction: column;
+        }
+
+        .btn {
+            width: 100%;
+            text-align: center;
+        }
+    }
+</style>
+
+
+<div class="page">
+
+    <div class="header">
+
+        <span class="badge">
+            Release Management
+        </span>
+
+        <h1>
+            Release Item Details
+        </h1>
+
+        <p>
+            View complete release item and user impact information.
+        </p>
+
+    </div>
+
+
+    <div class="card">
+
+        <div class="section">
+
+            <div class="section-title">
+                <span>01</span>
+                Release Information
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-box">
+
+                    <div class="label">
+                        Release Item ID
+                    </div>
+
+                    <div class="value">
+                        @Model.ReleaseItemId
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="label">
+                        Release ID
+                    </div>
+
+                    <div class="value">
+                        @Model.ReleaseId
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="label">
+                        Evidence Code
+                    </div>
+
+                    <div class="value">
+
+                        @if (!string.IsNullOrWhiteSpace(Model.EvidenceCode))
+                        {
+                            <span class="code">
+                                @Model.EvidenceCode
+                            </span>
+                        }
+                        else
+                        {
+                            <span>—</span>
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="label">
+                        Item Type
+                    </div>
+
+                    <div class="value">
+
+                        @if (!string.IsNullOrWhiteSpace(Model.ItemType))
+                        {
+                            <span class="type">
+                                @Model.ItemType
+                            </span>
+                        }
+                        else
+                        {
+                            <span>—</span>
+                        }
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <div class="section-title">
+                <span>02</span>
+                Change Details
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-box full">
+
+                    <div class="label">
+                        Title
+                    </div>
+
+                    <div class="value">
+                        @Model.Title
+                    </div>
+
+                </div>
+
+
+                <div class="info-box full">
+
+                    <div class="label">
+                        Description
+                    </div>
+
+                    <div class="value">
+                        @Model.Description
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <div class="section-title">
+                <span>03</span>
+                User Impact
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-box">
+
+                    <div class="label">
+                        User Impact
+                    </div>
+
+                    <div class="value">
+
+                        @if (Model.UserImpact == "High")
+                        {
+                            <span class="impact high">
+                                High
+                            </span>
+                        }
+                        else if (Model.UserImpact == "Medium")
+                        {
+                            <span class="impact medium">
+                                Medium
+                            </span>
+                        }
+                        else if (Model.UserImpact == "Low")
+                        {
+                            <span class="impact low">
+                                Low
+                            </span>
+                        }
+                        else
+                        {
+                            @Model.UserImpact
+                        }
+
+                    </div>
+
+                </div>
+
+
+                <div class="info-box">
+
+                    <div class="label">
+                        Affected Users
+                    </div>
+
+                    <div class="value">
+                        @Model.AffectedUsers
+                    </div>
+
+                </div>
+
+
+                <div class="info-box full">
+
+                    <div class="label">
+                        Impact Reason
+                    </div>
+
+                    <div class="value">
+                        @Model.ImpactReason
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="section">
+
+            <div class="section-title">
+                <span>04</span>
+                Record Information
+            </div>
+
+            <div class="info-grid">
+
+                <div class="info-box">
+
+                    <div class="label">
+                        Created At
+                    </div>
+
+                    <div class="value">
+                        @Model.CreatedAt
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="button-row">
+
+            <a asp-action="Index"
+               class="btn btn-secondary">
+                ← Back
+            </a>
+
+            <a asp-action="Edit"
+               asp-route-id="@Model.ReleaseItemId"
+               class="btn btn-primary">
+                ✎ Edit
+            </a>
+
+            <a asp-action="Delete"
+               asp-route-id="@Model.ReleaseItemId"
+               class="btn btn-danger">
+                × Delete
+            </a>
+
+        </div>
+
+    </div>
+
+</div>

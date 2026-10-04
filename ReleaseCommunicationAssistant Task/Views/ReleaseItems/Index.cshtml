@@ -1,0 +1,674 @@
+﻿@model IEnumerable<ReleaseCommunicationAssistant_Task.Models.ReleaseItem>
+
+@{
+    ViewData["Title"] = "Release Items";
+}
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        background: radial-gradient(circle at 10% 10%, rgba(14,165,233,.14), transparent 28%), radial-gradient(circle at 90% 20%, rgba(139,92,246,.14), transparent 30%), linear-gradient(135deg, #07111f, #0f172a 55%, #172554);
+        min-height: 100vh;
+    }
+
+    .release-items-page {
+        min-height: calc(100vh - 70px);
+        padding: 35px;
+    }
+
+    /* HEADER */
+
+    .page-header {
+        position: relative;
+        overflow: hidden;
+        background: linear-gradient(135deg, #0f172a, #164e63, #312e81);
+        border: 1px solid rgba(255,255,255,.08);
+        border-radius: 22px;
+        padding: 30px;
+        color: white;
+        margin-bottom: 25px;
+        box-shadow: 0 20px 45px rgba(0,0,0,.25);
+    }
+
+        .page-header::after {
+            content: "";
+            position: absolute;
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background: rgba(56,189,248,.10);
+            right: -50px;
+            top: -75px;
+        }
+
+    .header-content {
+        position: relative;
+        z-index: 2;
+    }
+
+    .header-badge {
+        display: inline-block;
+        padding: 6px 12px;
+        border-radius: 20px;
+        background: rgba(56,189,248,.12);
+        border: 1px solid rgba(125,211,252,.25);
+        color: #7dd3fc;
+        font-size: 10px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: .08em;
+        margin-bottom: 12px;
+    }
+
+    .page-header h1 {
+        margin: 0;
+        font-size: 30px;
+        font-weight: 800;
+    }
+
+    .page-header p {
+        margin: 8px 0 0;
+        color: #cbd5e1;
+        font-size: 14px;
+    }
+
+    /* TOOLBAR */
+
+    .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        background: rgba(15,23,42,.88);
+        border: 1px solid rgba(148,163,184,.14);
+        padding: 18px 22px;
+        border-radius: 16px;
+        margin-bottom: 20px;
+        box-shadow: 0 10px 25px rgba(0,0,0,.18);
+    }
+
+    .toolbar-title {
+        color: #f8fafc;
+        font-size: 16px;
+        font-weight: 750;
+    }
+
+    .toolbar-subtitle {
+        color: #94a3b8;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    .create-btn {
+        display: inline-block;
+        background: linear-gradient(135deg, #0284c7, #4f46e5);
+        color: white !important;
+        padding: 10px 18px;
+        border-radius: 9px;
+        text-decoration: none;
+        font-size: 13px;
+        font-weight: 700;
+        transition: .25s;
+        box-shadow: 0 8px 18px rgba(37,99,235,.22);
+    }
+
+        .create-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(37,99,235,.32);
+        }
+
+    /* TABLE */
+
+    .table-card {
+        background: rgba(15,23,42,.90);
+        border: 1px solid rgba(148,163,184,.14);
+        border-radius: 19px;
+        overflow: hidden;
+        box-shadow: 0 15px 40px rgba(0,0,0,.25);
+    }
+
+    .table-scroll {
+        overflow-x: auto;
+    }
+
+    .release-table {
+        width: 100%;
+        min-width: 1450px;
+        border-collapse: separate;
+        border-spacing: 0;
+    }
+
+        .release-table thead {
+            background: rgba(30,41,59,.96);
+        }
+
+        .release-table th {
+            padding: 15px;
+            color: #94a3b8;
+            font-size: 10px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: .06em;
+            white-space: nowrap;
+            border-bottom: 1px solid rgba(148,163,184,.14);
+        }
+
+        .release-table td {
+            padding: 15px;
+            color: #cbd5e1;
+            font-size: 12px;
+            border-bottom: 1px solid rgba(148,163,184,.08);
+            vertical-align: middle;
+        }
+
+        .release-table tbody tr {
+            transition: .18s;
+        }
+
+            .release-table tbody tr:hover {
+                background: rgba(56,189,248,.045);
+            }
+
+            .release-table tbody tr:last-child td {
+                border-bottom: none;
+            }
+
+    /* BADGES */
+
+    .code-badge {
+        display: inline-block;
+        padding: 6px 9px;
+        border-radius: 7px;
+        background: rgba(99,102,241,.12);
+        border: 1px solid rgba(99,102,241,.18);
+        color: #a5b4fc;
+        font-family: Consolas, monospace;
+        font-size: 11px;
+        font-weight: 700;
+        white-space: nowrap;
+    }
+
+    .type-badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        background: rgba(56,189,248,.10);
+        color: #7dd3fc;
+        border: 1px solid rgba(56,189,248,.15);
+        font-size: 10px;
+        font-weight: 750;
+        white-space: nowrap;
+    }
+
+    .impact-badge {
+        display: inline-block;
+        padding: 6px 10px;
+        border-radius: 20px;
+        font-size: 10px;
+        font-weight: 750;
+        white-space: nowrap;
+    }
+
+    .impact-high {
+        background: rgba(239,68,68,.12);
+        color: #f87171;
+        border: 1px solid rgba(239,68,68,.15);
+    }
+
+    .impact-medium {
+        background: rgba(245,158,11,.12);
+        color: #fbbf24;
+        border: 1px solid rgba(245,158,11,.15);
+    }
+
+    .impact-low {
+        background: rgba(34,197,94,.12);
+        color: #4ade80;
+        border: 1px solid rgba(34,197,94,.15);
+    }
+
+    /* TEXT */
+
+    .title-text {
+        color: #f1f5f9;
+        font-weight: 700;
+        min-width: 180px;
+        max-width: 250px;
+    }
+
+    .description-text {
+        color: #94a3b8;
+        line-height: 1.5;
+        min-width: 220px;
+        max-width: 300px;
+    }
+
+    .reason-text {
+        color: #94a3b8;
+        line-height: 1.5;
+        min-width: 180px;
+        max-width: 250px;
+    }
+
+    .affected-users {
+        color: #cbd5e1;
+        min-width: 160px;
+        max-width: 220px;
+        line-height: 1.5;
+    }
+
+    .release-id {
+        color: #60a5fa;
+        font-family: Consolas, monospace;
+        font-weight: 700;
+    }
+
+    .date-text {
+        color: #94a3b8;
+        white-space: nowrap;
+        font-size: 11px;
+    }
+
+    /* ACTIONS */
+
+    .actions {
+        display: flex;
+        flex-direction: column;
+        gap: 7px;
+        width: 85px;
+    }
+
+    .action-btn {
+        display: block;
+        width: 100%;
+        text-align: center;
+        padding: 8px;
+        border-radius: 7px;
+        text-decoration: none;
+        font-size: 11px;
+        font-weight: 700;
+        transition: .2s;
+    }
+
+    .edit-btn {
+        background: rgba(59,130,246,.12);
+        color: #60a5fa;
+        border: 1px solid rgba(59,130,246,.15);
+    }
+
+        .edit-btn:hover {
+            background: rgba(59,130,246,.22);
+            color: #93c5fd;
+            transform: translateX(3px);
+        }
+
+    .details-btn {
+        background: rgba(34,197,94,.10);
+        color: #4ade80;
+        border: 1px solid rgba(34,197,94,.15);
+    }
+
+        .details-btn:hover {
+            background: rgba(34,197,94,.20);
+            color: #86efac;
+            transform: translateX(3px);
+        }
+
+    .delete-btn {
+        background: rgba(239,68,68,.10);
+        color: #f87171;
+        border: 1px solid rgba(239,68,68,.15);
+    }
+
+        .delete-btn:hover {
+            background: rgba(239,68,68,.20);
+            color: #fca5a5;
+            transform: translateX(3px);
+        }
+
+    /* EMPTY */
+
+    .empty-state {
+        text-align: center;
+        padding: 70px 20px;
+        color: #94a3b8;
+    }
+
+        .empty-state h3 {
+            color: #f8fafc;
+            margin-bottom: 8px;
+        }
+
+    /* RESPONSIVE */
+
+    @@media (max-width: 700px) {
+
+        .release-items-page {
+            padding: 18px;
+        }
+
+        .toolbar {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .page-header h1 {
+            font-size: 25px;
+        }
+    }
+</style>
+
+
+<div class="release-items-page">
+
+    <!-- HEADER -->
+
+    <div class="page-header">
+
+        <div class="header-content">
+
+            <span class="header-badge">
+                Release Management
+            </span>
+
+            <h1>
+                Release Items
+            </h1>
+
+            <p>
+                Manage features, bug fixes, and changed behaviour included in releases.
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- TOOLBAR -->
+
+    <div class="toolbar">
+
+        <div>
+
+            <div class="toolbar-title">
+                Release Items
+            </div>
+
+            <div class="toolbar-subtitle">
+                Track user impact, affected users, and release changes.
+            </div>
+
+        </div>
+
+        <a asp-action="Create"
+           class="create-btn">
+            + Create Release Item
+        </a>
+
+    </div>
+
+
+    <!-- TABLE -->
+
+    <div class="table-card">
+
+        <div class="table-scroll">
+
+            @if (Model != null && Model.Any())
+            {
+                <table class="release-table">
+
+                    <thead>
+
+                        <tr>
+
+                            <th>
+                                Release
+                            </th>
+
+                            <th>
+                                Evidence Code
+                            </th>
+
+                            <th>
+                                Item Type
+                            </th>
+
+                            <th>
+                                Title
+                            </th>
+
+                            <th>
+                                Description
+                            </th>
+
+                            <th>
+                                User Impact
+                            </th>
+
+                            <th>
+                                Impact Reason
+                            </th>
+
+                            <th>
+                                Affected Users
+                            </th>
+
+                            <th>
+                                Created
+                            </th>
+
+                            <th>
+                                Actions
+                            </th>
+
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        @foreach (var item in Model)
+                        {
+                            <tr>
+
+                                <!-- RELEASE -->
+
+                                <td>
+                                    <span class="release-id">
+                                        #@item.ReleaseId
+                                    </span>
+                                </td>
+
+
+                                <!-- EVIDENCE CODE -->
+
+                                <td>
+
+                                    @if (!string.IsNullOrWhiteSpace(item.EvidenceCode))
+                                    {
+                                        <span class="code-badge">
+                                            @item.EvidenceCode
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color:#64748b;">
+                                            —
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- ITEM TYPE -->
+
+                                <td>
+
+                                    @if (!string.IsNullOrWhiteSpace(item.ItemType))
+                                    {
+                                        <span class="type-badge">
+                                            @item.ItemType
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color:#64748b;">
+                                            —
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- TITLE -->
+
+                                <td>
+
+                                    <div class="title-text">
+                                        @item.Title
+                                    </div>
+
+                                </td>
+
+
+                                <!-- DESCRIPTION -->
+
+                                <td>
+
+                                    <div class="description-text">
+                                        @item.Description
+                                    </div>
+
+                                </td>
+
+
+                                <!-- USER IMPACT -->
+
+                                <td>
+
+                                    @if (item.UserImpact == "High")
+                                    {
+                                        <span class="impact-badge impact-high">
+                                            High
+                                        </span>
+                                    }
+                                    else if (item.UserImpact == "Medium")
+                                    {
+                                        <span class="impact-badge impact-medium">
+                                            Medium
+                                        </span>
+                                    }
+                                    else if (item.UserImpact == "Low")
+                                    {
+                                        <span class="impact-badge impact-low">
+                                            Low
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        <span style="color:#94a3b8;">
+                                            @item.UserImpact
+                                        </span>
+                                    }
+
+                                </td>
+
+
+                                <!-- IMPACT REASON -->
+
+                                <td>
+
+                                    <div class="reason-text">
+                                        @item.ImpactReason
+                                    </div>
+
+                                </td>
+
+
+                                <!-- AFFECTED USERS -->
+
+                                <td>
+
+                                    <div class="affected-users">
+                                        @item.AffectedUsers
+                                    </div>
+
+                                </td>
+
+
+                                <!-- CREATED -->
+
+                                <td>
+
+                                    <span class="date-text">
+                                        @item.CreatedAt
+                                    </span>
+
+                                </td>
+
+
+                                <!-- ACTIONS -->
+
+                                <td>
+
+                                    <div class="actions">
+
+                                        <a asp-action="Edit"
+                                           asp-route-id="@item.ReleaseItemId"
+                                           class="action-btn edit-btn">
+                                            ✎ Edit
+                                        </a>
+
+                                        <a asp-action="Details"
+                                           asp-route-id="@item.ReleaseItemId"
+                                           class="action-btn details-btn">
+                                            ◉ Details
+                                        </a>
+
+                                        <a asp-action="Delete"
+                                           asp-route-id="@item.ReleaseItemId"
+                                           class="action-btn delete-btn">
+                                            × Delete
+                                        </a>
+
+                                    </div>
+
+                                </td>
+
+                            </tr>
+                        }
+
+                    </tbody>
+
+                </table>
+            }
+            else
+            {
+                <div class="empty-state">
+
+                    <h3>
+                        No Release Items
+                    </h3>
+
+                    <p>
+                        No release items have been created yet.
+                    </p>
+
+                    <a asp-action="Create"
+                       class="create-btn">
+                        + Create Release Item
+                    </a>
+
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

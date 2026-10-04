@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.37628.2
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReleaseCommunicationAssistant Task", "ReleaseCommunicationAssistant Task\ReleaseCommunicationAssistant Task.csproj", "{408F96C5-F5A8-445A-8F65-F0CD1B5E7CFD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ReleaseCommunicationAssistant.Tests", "..\ReleaseCommunicationAssistant.Tests\ReleaseCommunicationAssistant.Tests\ReleaseCommunicationAssistant.Tests.csproj", "{A2A6917C-46CC-7CFA-27FA-78DB93BB0943}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{408F96C5-F5A8-445A-8F65-F0CD1B5E7CFD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{408F96C5-F5A8-445A-8F65-F0CD1B5E7CFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{408F96C5-F5A8-445A-8F65-F0CD1B5E7CFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{408F96C5-F5A8-445A-8F65-F0CD1B5E7CFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A2A6917C-46CC-7CFA-27FA-78DB93BB0943}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A2A6917C-46CC-7CFA-27FA-78DB93BB0943}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A2A6917C-46CC-7CFA-27FA-78DB93BB0943}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A2A6917C-46CC-7CFA-27FA-78DB93BB0943}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {8DCE2F89-B313-47AF-AF33-A031E6890A37}
+	EndGlobalSection
+EndGlobal
