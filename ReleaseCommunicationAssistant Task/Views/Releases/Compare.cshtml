@@ -1,0 +1,319 @@
+﻿@model ReleaseCommunicationAssistant_Task.Models.ReleaseComparisonViewModel
+
+@{
+    ViewData["Title"] = "Compare Releases";
+    var releases = ViewBag.Releases as List<ReleaseCommunicationAssistant_Task.Models.Release>;
+}
+
+<div class="container py-4">
+
+    <div class="mb-4">
+        <h1 style="color:#f8fafc;">🔄 Compare Release Versions</h1>
+        <p style="color:#94a3b8;">
+            Compare release package changes, release items, and QA evidence.
+        </p>
+    </div>
+
+    <!-- VERSION SELECTOR -->
+    <div class="card p-4 mb-4"
+         style="background:#111827;border:1px solid #1f2937;border-radius:14px;">
+
+        <form asp-action="Compare" method="get">
+
+            <div class="row g-3 align-items-end">
+
+                <div class="col-md-5">
+                    <label class="form-label" style="color:#cbd5e1;">
+                        Release A
+                    </label>
+
+                    <select name="releaseAId"
+                            class="form-select"
+                            required>
+                        <option value="">-- Select Release --</option>
+
+                        @if (releases != null)
+                        {
+                            foreach (var release in releases)
+                            {
+                                <option value="@release.ReleaseId"
+                                        selected="@(Model?.ReleaseA?.ReleaseId == release.ReleaseId)">
+                                    @release.VersionNumber
+                                </option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-5">
+                    <label class="form-label" style="color:#cbd5e1;">
+                        Release B
+                    </label>
+
+                    <select name="releaseBId"
+                            class="form-select"
+                            required>
+                        <option value="">-- Select Release --</option>
+
+                        @if (releases != null)
+                        {
+                            foreach (var release in releases)
+                            {
+                                <option value="@release.ReleaseId"
+                                        selected="@(Model?.ReleaseB?.ReleaseId == release.ReleaseId)">
+                                    @release.VersionNumber
+                                </option>
+                            }
+                        }
+                    </select>
+                </div>
+
+                <div class="col-md-2">
+                    <button type="submit"
+                            class="btn btn-primary w-100">
+                        Compare
+                    </button>
+                </div>
+
+            </div>
+
+        </form>
+    </div>
+
+    @if (Model?.ReleaseA != null && Model.ReleaseB != null)
+    {
+        <!-- RELEASE HEADER -->
+        <div class="row g-3 mb-4">
+
+            <div class="col-md-6">
+                <div class="card p-4 h-100"
+                     style="background:#111827;border:1px solid #334155;border-radius:14px;">
+                    <div style="color:#94a3b8;">Release A</div>
+                    <h2 style="color:#60a5fa;">
+                        @Model.ReleaseA.VersionNumber
+                    </h2>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="card p-4 h-100"
+                     style="background:#111827;border:1px solid #334155;border-radius:14px;">
+                    <div style="color:#94a3b8;">Release B</div>
+                    <h2 style="color:#34d399;">
+                        @Model.ReleaseB.VersionNumber
+                    </h2>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- PACKAGE CHANGES -->
+        <div class="card p-4 mb-4"
+             style="background:#111827;border:1px solid #1f2937;border-radius:14px;">
+
+            <h3 style="color:#f8fafc;">📦 Release Package Changes</h3>
+
+            @if (Model.ChangedPackageFields.Any())
+            {
+                <ul class="mt-3">
+                    @foreach (var field in Model.ChangedPackageFields)
+                    {
+                        <li style="color:#fbbf24;margin-bottom:8px;">
+                            @field
+                        </li>
+                    }
+                </ul>
+            }
+            else
+            {
+                <p style="color:#94a3b8;margin-top:15px;">
+                    No release package fields changed.
+                </p>
+            }
+
+        </div>
+
+        <!-- ADDED ITEMS -->
+        <div class="card p-4 mb-4"
+             style="background:#111827;border:1px solid #1f2937;border-radius:14px;">
+
+            <h3 style="color:#34d399;">
+                ➕ Added Release Items
+            </h3>
+
+            @if (Model.AddedItems.Any())
+            {
+                @foreach (var item in Model.AddedItems)
+                {
+                    <div class="p-3 mt-3"
+                         style="background:#0f172a;border-radius:10px;">
+                        <strong style="color:#f8fafc;">
+                            @item.EvidenceCode - @item.Title
+                        </strong>
+
+                        <div style="color:#94a3b8;margin-top:5px;">
+                            @item.Description
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p style="color:#94a3b8;margin-top:15px;">
+                    No items were added.
+                </p>
+            }
+
+        </div>
+
+        <!-- REMOVED ITEMS -->
+        <div class="card p-4 mb-4"
+             style="background:#111827;border:1px solid #1f2937;border-radius:14px;">
+
+            <h3 style="color:#f87171;">
+                ➖ Removed Release Items
+            </h3>
+
+            @if (Model.RemovedItems.Any())
+            {
+                @foreach (var item in Model.RemovedItems)
+                {
+                    <div class="p-3 mt-3"
+                         style="background:#0f172a;border-radius:10px;">
+                        <strong style="color:#f8fafc;">
+                            @item.EvidenceCode - @item.Title
+                        </strong>
+
+                        <div style="color:#94a3b8;margin-top:5px;">
+                            @item.Description
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p style="color:#94a3b8;margin-top:15px;">
+                    No items were removed.
+                </p>
+            }
+
+        </div>
+
+        <!-- CHANGED ITEMS -->
+        <div class="card p-4 mb-4"
+             style="background:#111827;border:1px solid #1f2937;border-radius:14px;">
+
+            <h3 style="color:#fbbf24;">
+                ✏️ Changed Release Items
+            </h3>
+
+            @if (Model.ChangedItems.Any())
+            {
+                @foreach (var item in Model.ChangedItems)
+                {
+                    <div class="p-3 mt-3"
+                         style="background:#0f172a;border-radius:10px;">
+                        <strong style="color:#f8fafc;">
+                            @item.EvidenceCode - @item.Title
+                        </strong>
+
+                        <div style="color:#94a3b8;margin-top:5px;">
+                            @item.Description
+                        </div>
+
+                        <div style="color:#60a5fa;margin-top:8px;">
+                            User Impact:
+                            @item.UserImpact
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p style="color:#94a3b8;margin-top:15px;">
+                    No existing release items changed.
+                </p>
+            }
+
+        </div>
+
+        <!-- ADDED QA -->
+        <div class="card p-4 mb-4"
+             style="background:#111827;border:1px solid #1f2937;border-radius:14px;">
+
+            <h3 style="color:#34d399;">
+                🧪 Added QA Evidence
+            </h3>
+
+            @if (Model.AddedQaEvidence.Any())
+            {
+                @foreach (var evidence in Model.AddedQaEvidence)
+                {
+                    <div class="p-3 mt-3"
+                         style="background:#0f172a;border-radius:10px;">
+                        <strong style="color:#f8fafc;">
+                            @evidence.EvidenceCode
+                        </strong>
+
+                        <div style="color:#94a3b8;">
+                            @evidence.TestArea
+                        </div>
+
+                        <div style="color:#cbd5e1;margin-top:5px;">
+                            @evidence.EvidenceDescription
+                        </div>
+
+                        <div style="color:#34d399;margin-top:5px;">
+                            Result: @evidence.Result
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p style="color:#94a3b8;margin-top:15px;">
+                    No QA evidence was added.
+                </p>
+            }
+
+        </div>
+
+        <!-- REMOVED QA -->
+        <div class="card p-4 mb-4"
+             style="background:#111827;border:1px solid #1f2937;border-radius:14px;">
+
+            <h3 style="color:#f87171;">
+                🧪 Removed QA Evidence
+            </h3>
+
+            @if (Model.RemovedQaEvidence.Any())
+            {
+                @foreach (var evidence in Model.RemovedQaEvidence)
+                {
+                    <div class="p-3 mt-3"
+                         style="background:#0f172a;border-radius:10px;">
+                        <strong style="color:#f8fafc;">
+                            @evidence.EvidenceCode
+                        </strong>
+
+                        <div style="color:#94a3b8;">
+                            @evidence.TestArea
+                        </div>
+
+                        <div style="color:#cbd5e1;margin-top:5px;">
+                            @evidence.EvidenceDescription
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p style="color:#94a3b8;margin-top:15px;">
+                    No QA evidence was removed.
+                </p>
+            }
+
+        </div>
+    }
+
+</div>

@@ -1,0 +1,311 @@
+﻿@model ReleaseCommunicationAssistant_Task.Models.TechnicalSummaryViewModel
+
+@{
+    ViewData["Title"] = "Internal Technical Summary";
+}
+
+<div class="container py-5">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="text-white fw-bold mb-1">
+                Internal Technical Summary
+            </h1>
+
+            <p class="text-secondary mb-0">
+                Release Version @Model.VersionNumber
+            </p>
+        </div>
+
+        <a asp-action="Index"
+           class="btn btn-outline-light">
+            ← Back to Releases
+        </a>
+
+    </div>
+
+
+    <!-- GOVERNANCE NOTICE -->
+    <div class="alert alert-info border-0 shadow-sm mb-4">
+
+        <strong>Technical review summary</strong>
+
+        <div class="mt-1">
+            This summary is generated from the supplied release items
+            and QA evidence. It does not approve, reject, or deploy
+            the release.
+        </div>
+
+    </div>
+
+
+    <!-- SUMMARY -->
+    <div class="card bg-dark text-white border-secondary shadow mb-4">
+
+        <div class="card-header border-secondary">
+
+            <h5 class="mb-0">
+                Technical Release Summary
+            </h5>
+
+        </div>
+
+        <div class="card-body">
+
+            <div class="summary-content">
+                @foreach (var line in Model.Summary.Split(
+                                Environment.NewLine,
+                                StringSplitOptions.None))
+                {
+                    if (string.IsNullOrWhiteSpace(line))
+                    {
+                        <div class="summary-space"></div>
+                    }
+                    else if (line.EndsWith(":"))
+                    {
+                        <h6 class="section-title">
+                            @line
+                        </h6>
+                    }
+                    else
+                    {
+                        <p>
+                            @line
+                        </p>
+                    }
+                }
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        <!-- EVIDENCE -->
+        <div class="col-lg-4">
+
+            <div class="card bg-dark text-white border-secondary shadow h-100">
+
+                <div class="card-header border-secondary">
+
+                    <h5 class="mb-0">
+                        Evidence References
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    @if (Model.EvidenceReferences.Any())
+                    {
+                        @foreach (var evidence in Model.EvidenceReferences)
+                        {
+                            <div class="evidence-item">
+                                <span>
+                                    @evidence
+                                </span>
+
+                                <span class="badge bg-info text-dark">
+                                    Evidence
+                                </span>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-secondary mb-0">
+                            No evidence references were supplied.
+                        </p>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- RISKS -->
+        <div class="col-lg-4">
+
+            <div class="card bg-dark text-white border-secondary shadow h-100">
+
+                <div class="card-header border-secondary">
+
+                    <h5 class="mb-0">
+                        Identified Risks
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    @if (Model.Risks.Any())
+                    {
+                        @foreach (var risk in Model.Risks)
+                        {
+                            <div class="risk-item">
+                                ⚠ @risk
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-secondary mb-0">
+                            No deterministic risk indicators were detected.
+                        </p>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- LIMITATIONS -->
+        <div class="col-lg-4">
+
+            <div class="card bg-dark text-white border-secondary shadow h-100">
+
+                <div class="card-header border-secondary">
+
+                    <h5 class="mb-0">
+                        Known Limitations
+                    </h5>
+
+                </div>
+
+                <div class="card-body">
+
+                    @if (Model.Limitations.Any())
+                    {
+                        @foreach (var limitation in Model.Limitations)
+                        {
+                            <div class="limitation-item">
+                                ⚠ @limitation
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-secondary mb-0">
+                            No explicit limitations were detected.
+                        </p>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- REVIEW NOTE -->
+    <div class="card bg-dark text-white border-secondary shadow mt-4">
+
+        <div class="card-body p-4">
+
+            <h5 class="mb-2">
+                Human Review Required
+            </h5>
+
+            <p class="text-secondary mb-0">
+                The technical summary is informational only.
+                A reviewer must verify the statements and supporting
+                evidence before using this content in the final release brief.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    body {
+        background: #0f1115;
+    }
+
+    .card {
+        border-radius: 14px;
+    }
+
+    .card-header {
+        padding: 18px 20px;
+    }
+
+    .summary-content {
+        color: #cbd5e1;
+        line-height: 1.7;
+    }
+
+        .summary-content p {
+            margin-bottom: 8px;
+        }
+
+    .summary-space {
+        height: 8px;
+    }
+
+    .section-title {
+        color: #f8fafc;
+        font-weight: 700;
+        margin-top: 18px;
+        margin-bottom: 10px;
+    }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+    .evidence-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+        padding: 10px 12px;
+        margin-bottom: 8px;
+        border: 1px solid #2b3038;
+        border-radius: 8px;
+        background: #151922;
+    }
+
+        .evidence-item span:first-child {
+            color: #7dd3fc;
+            font-family: Consolas, monospace;
+            font-weight: 600;
+        }
+
+    .risk-item {
+        padding: 12px;
+        margin-bottom: 9px;
+        border-radius: 8px;
+        background: rgba(239, 68, 68, .08);
+        border: 1px solid rgba(239, 68, 68, .18);
+        color: #fca5a5;
+    }
+
+    .limitation-item {
+        padding: 12px;
+        margin-bottom: 9px;
+        border-radius: 8px;
+        background: rgba(245, 158, 11, .08);
+        border: 1px solid rgba(245, 158, 11, .18);
+        color: #fcd34d;
+    }
+
+    .badge {
+        border-radius: 6px;
+        font-size: .7rem;
+    }
+
+</style>

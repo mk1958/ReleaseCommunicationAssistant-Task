@@ -1,0 +1,267 @@
+﻿@model ReleaseCommunicationAssistant_Task.Models.ReleaseRiskViewModel
+
+@{
+    ViewData["Title"] = "Release Risks & Limitations";
+}
+
+<div class="container py-5">
+
+    <!-- HEADER -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+
+        <div>
+            <h1 class="text-white fw-bold mb-1">
+                Release Risks & Limitations
+            </h1>
+
+            <p class="text-secondary mb-0">
+                Version @Model.VersionNumber
+            </p>
+        </div>
+
+        <a asp-action="Index"
+           class="btn btn-outline-light">
+            ← Back to Releases
+        </a>
+
+    </div>
+
+
+    <!-- INFORMATION -->
+    <div class="alert alert-info border-0 shadow-sm mb-4">
+
+        <strong>Risk & limitation analysis</strong>
+
+        <div class="mt-1">
+            The system checks supplied release information for
+            predefined risk indicators, known issues, limitations,
+            and operational constraints.
+        </div>
+
+    </div>
+
+
+    <div class="row g-4">
+
+        <!-- RISKS -->
+        <div class="col-lg-6">
+
+            <div class="card bg-dark text-white border-secondary shadow h-100">
+
+                <div class="card-header border-secondary d-flex justify-content-between align-items-center">
+
+                    <h5 class="mb-0">
+                        ⚠ Identified Risks
+                    </h5>
+
+                    <span class="badge bg-danger">
+                        @Model.Risks.Count
+                    </span>
+
+                </div>
+
+                <div class="card-body">
+
+                    @foreach (var risk in Model.Risks)
+                    {
+                        <div class="risk-card mb-3">
+
+                            <div class="d-flex justify-content-between align-items-start">
+
+                                <div>
+
+                                    <h6 class="text-white mb-1">
+                                        @risk.Title
+                                    </h6>
+
+                                    <span class="evidence-code">
+                                        Evidence: @risk.EvidenceCode
+                                    </span>
+
+                                </div>
+
+                                @if (risk.Severity == "High")
+                                {
+                                    <span class="badge bg-danger">
+                                        HIGH
+                                    </span>
+                                }
+                                else if (risk.Severity == "Medium")
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        MEDIUM
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">
+                                        NONE
+                                    </span>
+                                }
+
+                            </div>
+
+                            <p class="text-secondary mt-3 mb-2">
+                                @risk.Description
+                            </p>
+
+                            <div class="reason-box">
+                                <strong>Assessment:</strong>
+                                @risk.Reason
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- LIMITATIONS -->
+        <div class="col-lg-6">
+
+            <div class="card bg-dark text-white border-secondary shadow h-100">
+
+                <div class="card-header border-secondary d-flex justify-content-between align-items-center">
+
+                    <h5 class="mb-0">
+                        ⚠ Known Limitations
+                    </h5>
+
+                    <span class="badge bg-warning text-dark">
+                        @Model.Limitations.Count
+                    </span>
+
+                </div>
+
+                <div class="card-body">
+
+                    @foreach (var limitation in Model.Limitations)
+                    {
+                        <div class="limitation-card mb-3">
+
+                            <div class="d-flex justify-content-between align-items-start">
+
+                                <div>
+
+                                    <h6 class="text-white mb-1">
+                                        @limitation.Title
+                                    </h6>
+
+                                    <span class="evidence-code">
+                                        Evidence: @limitation.EvidenceCode
+                                    </span>
+
+                                </div>
+
+                                @if (limitation.Severity == "Attention")
+                                {
+                                    <span class="badge bg-warning text-dark">
+                                        ATTENTION
+                                    </span>
+                                }
+                                else
+                                {
+                                    <span class="badge bg-success">
+                                        NONE
+                                    </span>
+                                }
+
+                            </div>
+
+                            <p class="text-secondary mt-3 mb-2">
+                                @limitation.Description
+                            </p>
+
+                            <div class="reason-box">
+                                <strong>Assessment:</strong>
+                                @limitation.Reason
+                            </div>
+
+                        </div>
+                    }
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- GOVERNANCE NOTE -->
+    <div class="card bg-dark text-white border-secondary shadow mt-4">
+
+        <div class="card-body p-4">
+
+            <h5 class="mb-3">
+                Release Governance
+            </h5>
+
+            <p class="text-secondary mb-0">
+                These findings are deterministic indicators based on
+                the supplied release package. They do not approve,
+                reject, or deploy the release. Final release decisions
+                remain subject to human review.
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<style>
+
+    body {
+        background: #0f1115;
+    }
+
+    .card {
+        border-radius: 14px;
+    }
+
+    .card-header {
+        padding: 18px 20px;
+    }
+
+    .risk-card,
+    .limitation-card {
+        padding: 18px;
+        border: 1px solid #2b3038;
+        border-radius: 12px;
+        background: #151922;
+    }
+
+    .risk-card {
+        border-left: 4px solid #dc3545;
+    }
+
+    .limitation-card {
+        border-left: 4px solid #ffc107;
+    }
+
+    .evidence-code {
+        color: #94a3b8;
+        font-size: 0.85rem;
+    }
+
+    .reason-box {
+        padding: 10px 12px;
+        border-radius: 8px;
+        background: #0f1115;
+        color: #cbd5e1;
+        font-size: 0.9rem;
+    }
+
+    .badge {
+        border-radius: 7px;
+        letter-spacing: 0.4px;
+    }
+
+</style>

@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "AI Missing Information Analysis";
+}
+
+<div class="container mt-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>AI Missing Information Analysis</h2>
+            <p class="text-muted mb-0">
+                Release Version:
+                <strong>@ViewBag.VersionNumber</strong>
+            </p>
+        </div>
+
+        <a asp-controller="Releases"
+           asp-action="Index"
+           class="btn btn-secondary">
+            Back to Releases
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0">
+                AI Release Readiness Analysis
+            </h5>
+        </div>
+
+        <div class="card-body">
+
+            @if (ViewBag.Analysis != null)
+            {
+                <div class="alert alert-light border">
+                    <pre style="
+                            white-space: pre-wrap;
+                            font-family: inherit;
+                            font-size: 15px;
+                            line-height: 1.6;
+                            margin-bottom: 0;
+                            color: #212529;
+                        ">@ViewBag.Analysis</pre>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    No AI analysis was returned.
+                </div>
+            }
+
+        </div>
+
+    </div>
+
+</div>

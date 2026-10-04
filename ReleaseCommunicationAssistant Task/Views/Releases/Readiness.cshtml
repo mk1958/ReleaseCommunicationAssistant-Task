@@ -1,0 +1,210 @@
+﻿@model ReleaseCommunicationAssistant_Task.Models.ReleaseReadinessViewModel
+
+@{
+    ViewData["Title"] = "Release Readiness";
+}
+
+<div class="container py-5">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="text-white fw-bold mb-1">
+                Release Readiness
+            </h1>
+            <p class="text-secondary mb-0">
+                Version @Model.VersionNumber
+            </p>
+        </div>
+
+        <a asp-action="Index" class="btn btn-outline-light">
+            ← Back to Releases
+        </a>
+    </div>
+
+    @if (Model.IsComplete)
+    {
+        <div class="alert alert-success border-0 shadow-sm">
+            <strong>✓ Release package is complete.</strong>
+            All required release information has been provided.
+        </div>
+    }
+    else
+    {
+        <div class="alert alert-warning border-0 shadow-sm">
+            <strong>⚠ Release package is incomplete.</strong>
+            Please provide the missing information before generating the final release brief.
+        </div>
+    }
+
+    <div class="row g-4 mt-2">
+
+        <div class="col-md-6">
+            <div class="card bg-dark text-white border-secondary h-100 shadow">
+
+                <div class="card-header border-secondary">
+                    <h5 class="mb-0">Required Release Information</h5>
+                </div>
+
+                <div class="card-body">
+
+                    <div class="readiness-item">
+                        <span>Completed Features</span>
+                        @if (Model.HasCompletedFeatures)
+                        {
+                            <span class="badge bg-success">Provided</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Missing</span>
+                        }
+                    </div>
+
+                    <div class="readiness-item">
+                        <span>Bug Fixes</span>
+                        @if (Model.HasBugFixes)
+                        {
+                            <span class="badge bg-success">Provided</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Missing</span>
+                        }
+                    </div>
+
+                    <div class="readiness-item">
+                        <span>Changed Behaviour</span>
+                        @if (Model.HasChangedBehaviour)
+                        {
+                            <span class="badge bg-success">Provided</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Missing</span>
+                        }
+                    </div>
+
+                    <div class="readiness-item">
+                        <span>QA Summary</span>
+                        @if (Model.HasQaSummary)
+                        {
+                            <span class="badge bg-success">Provided</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Missing</span>
+                        }
+                    </div>
+
+                    <div class="readiness-item">
+                        <span>Known Limitations</span>
+                        @if (Model.HasKnownLimitations)
+                        {
+                            <span class="badge bg-success">Provided</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Missing</span>
+                        }
+                    </div>
+
+                    <div class="readiness-item">
+                        <span>Migration / Configuration Notes</span>
+                        @if (Model.HasMigrationNotes)
+                        {
+                            <span class="badge bg-success">Provided</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Missing</span>
+                        }
+                    </div>
+
+                    <div class="readiness-item">
+                        <span>Affected User Groups</span>
+                        @if (Model.HasAffectedUserGroups)
+                        {
+                            <span class="badge bg-success">Provided</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-danger">Missing</span>
+                        }
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card bg-dark text-white border-secondary h-100 shadow">
+
+                <div class="card-header border-secondary">
+                    <h5 class="mb-0">Missing Information</h5>
+                </div>
+
+                <div class="card-body">
+
+                    @if (Model.MissingSections.Any())
+                    {
+                        <p class="text-secondary">
+                            The following sections still require information:
+                        </p>
+
+                        <ul class="list-group list-group-flush">
+                            @foreach (var missingSection in Model.MissingSections)
+                            {
+                                <li class="list-group-item bg-dark text-white border-secondary">
+                                    <span class="text-warning">⚠</span>
+                                    @missingSection
+                                </li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <div class="text-center py-5">
+                            <div class="display-5 text-success mb-3">✓</div>
+
+                            <h5 class="text-white">
+                                No missing sections
+                            </h5>
+
+                            <p class="text-secondary mb-0">
+                                The release package contains all required information.
+                            </p>
+                        </div>
+                    }
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<style>
+    body {
+        background: #0f1115;
+    }
+
+    .readiness-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 0;
+        border-bottom: 1px solid #2b3038;
+    }
+
+    .readiness-item:last-child {
+        border-bottom: none;
+    }
+
+    .card {
+        border-radius: 14px;
+    }
+
+    .badge {
+        min-width: 80px;
+    }
+</style>

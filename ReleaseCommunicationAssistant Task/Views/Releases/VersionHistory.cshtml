@@ -1,0 +1,364 @@
+﻿@model ReleaseCommunicationAssistant_Task.Models.ReleaseVersionHistoryViewModel
+
+@{
+    ViewData["Title"] = "Version History";
+}
+
+<style>
+    .history-page {
+        color: #e5e7eb;
+    }
+
+    .history-header {
+        margin-bottom: 28px;
+    }
+
+    .history-title {
+        color: #f8fafc;
+        font-weight: 700;
+        margin-bottom: 6px;
+    }
+
+    .history-subtitle {
+        color: #94a3b8;
+        margin-bottom: 0;
+    }
+
+    .history-card {
+        background: #111827;
+        border: 1px solid rgba(148, 163, 184, 0.16);
+        border-radius: 12px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(0,0,0,.25);
+        margin-bottom: 20px;
+    }
+
+    .history-card-header {
+        background: #151e2e;
+        color: #f8fafc;
+        padding: 16px 20px;
+        border-bottom: 1px solid rgba(148, 163, 184, 0.14);
+    }
+
+    .history-card-body {
+        padding: 20px;
+    }
+
+    .version-badge {
+        display: inline-block;
+        background: rgba(59, 130, 246, .12);
+        color: #60a5fa;
+        border: 1px solid rgba(59, 130, 246, .25);
+        border-radius: 6px;
+        padding: 5px 10px;
+        font-size: 13px;
+        font-weight: 700;
+    }
+
+    .history-label {
+        color: #94a3b8;
+        font-size: 12px;
+        font-weight: 600;
+        text-transform: uppercase;
+        margin-bottom: 6px;
+    }
+
+    .history-value {
+        color: #dbe4ef;
+        line-height: 1.6;
+        white-space: pre-wrap;
+    }
+
+    .history-section {
+        margin-top: 20px;
+        padding-top: 18px;
+        border-top: 1px solid rgba(148, 163, 184, .10);
+    }
+
+    .snapshot-box {
+        color: #dbe4ef;
+        background: #0f172a;
+        border: 1px solid rgba(148, 163, 184, .12);
+        border-radius: 8px;
+        padding: 15px;
+        white-space: pre-wrap;
+        margin: 0;
+        overflow-x: auto;
+        font-size: 13px;
+        line-height: 1.6;
+    }
+
+    .empty-history {
+        background: #111827;
+        border: 1px solid rgba(148, 163, 184, .16);
+        border-radius: 10px;
+        padding: 24px;
+        color: #94a3b8;
+    }
+
+    .back-btn {
+        background: rgba(148, 163, 184, .08);
+        color: #cbd5e1;
+        border: 1px solid rgba(148, 163, 184, .20);
+        padding: 9px 16px;
+        border-radius: 8px;
+        text-decoration: none;
+    }
+
+        .back-btn:hover {
+            background: rgba(148, 163, 184, .15);
+            color: #fff;
+        }
+</style>
+
+<div class="history-page">
+
+    <div class="history-header">
+
+        <a asp-action="Index" class="back-btn">
+            ← Back to Releases
+        </a>
+
+        <div style="margin-top:20px;">
+
+            <h2 class="history-title">
+                Release Version History
+            </h2>
+
+            <p class="history-subtitle">
+                Current Version:
+                <span class="version-badge">
+                    @Model.CurrentVersion
+                </span>
+            </p>
+
+        </div>
+
+    </div>
+
+    @if (!Model.History.Any())
+    {
+        <div class="empty-history">
+            No previous release versions have been preserved yet.
+        </div>
+    }
+    else
+    {
+        @foreach (var version in Model.History)
+        {
+            <div class="history-card">
+
+                <div class="history-card-header">
+
+                    <strong>
+                        Preserved Version:
+                        @version.VersionNumber
+                    </strong>
+
+                    <span style="float:right; color:#94a3b8; font-size:13px;">
+                        @version.SnapshotCreatedAt
+                        .ToLocalTime()
+                        .ToString("dd MMM yyyy, HH:mm")
+                    </span>
+
+                </div>
+
+                <div class="history-card-body">
+
+                    <!-- STATUS + VERSION -->
+
+                    <div class="row">
+
+                        <div class="col-md-6 mb-3">
+
+                            <div class="history-label">
+                                Status
+                            </div>
+
+                            <div class="history-value">
+                                @(string.IsNullOrWhiteSpace(version.Status)
+                                                        ? "Not specified"
+                                                        : version.Status)
+                                                                     </div>
+
+                        </div>
+
+                        <div class="col-md-6 mb-3">
+
+                            <div class="history-label">
+                                Version
+                            </div>
+
+                            <div class="history-value">
+                                @version.VersionNumber
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                    <!-- COMPLETED FEATURES -->
+
+                    <div class="history-section">
+
+                        <div class="history-label">
+                            Completed Features
+                        </div>
+
+                        <div class="history-value">
+                            @(string.IsNullOrWhiteSpace(version.CompletedFeatures)
+                                                ? "Not specified"
+                                                : version.CompletedFeatures)
+                                                                        </div>
+
+                    </div>
+
+                    <!-- BUG FIXES -->
+
+                    <div class="history-section">
+
+                        <div class="history-label">
+                            Bug Fixes
+                        </div>
+
+                        <div class="history-value">
+                            @(string.IsNullOrWhiteSpace(version.BugFixes)
+                                                ? "Not specified"
+                                                : version.BugFixes)
+                                                               </div>
+
+                    </div>
+
+                    <!-- CHANGED BEHAVIOUR -->
+
+                    <div class="history-section">
+
+                        <div class="history-label">
+                            Changed Behaviour
+                        </div>
+
+                        <div class="history-value">
+                            @(string.IsNullOrWhiteSpace(version.ChangedBehaviour)
+                                                ? "Not specified"
+                                                : version.ChangedBehaviour)
+                                                                       </div>
+
+                    </div>
+
+                    <!-- QA SUMMARY -->
+
+                    <div class="history-section">
+
+                        <div class="history-label">
+                            QA Summary
+                        </div>
+
+                        <div class="history-value">
+                            @(string.IsNullOrWhiteSpace(version.Qasummary)
+                                                ? "Not specified"
+                                                : version.Qasummary)
+                                                                </div>
+
+                    </div>
+
+                    <!-- KNOWN LIMITATIONS -->
+
+                    <div class="history-section">
+
+                        <div class="history-label">
+                            Known Limitations
+                        </div>
+
+                        <div class="history-value">
+                            @(string.IsNullOrWhiteSpace(version.KnownLimitations)
+                                                ? "Not specified"
+                                                : version.KnownLimitations)
+                                                                       </div>
+
+                    </div>
+
+                    <!-- MIGRATION / CONFIGURATION NOTES -->
+
+                    <div class="history-section">
+
+                        <div class="history-label">
+                            Migration / Configuration Notes
+                        </div>
+
+                        <div class="history-value">
+                            @(string.IsNullOrWhiteSpace(version.MigrationConfigurationNotes)
+                                                ? "Not specified"
+                                                : version.MigrationConfigurationNotes)
+                                                                                  </div>
+
+                    </div>
+
+                    <!-- AFFECTED USER GROUPS -->
+
+                    <div class="history-section">
+
+                        <div class="history-label">
+                            Affected User Groups
+                        </div>
+
+                        <div class="history-value">
+                            @(string.IsNullOrWhiteSpace(version.AffectedUserGroups)
+                                                ? "Not specified"
+                                                : version.AffectedUserGroups)
+                </div>
+
+                    </div>
+
+                    <!-- PRESERVED RELEASE ITEMS -->
+
+                    <div class="history-section">
+
+                        <div class="history-label">
+                            Preserved Release Items
+                        </div>
+
+                        <div class="history-value">
+
+                    @if (string.IsNullOrWhiteSpace(version.ReleaseItemsSnapshot))
+                            {
+                                <span>Not captured</span>
+                            }
+                            else
+                            {
+                                <pre class="snapshot-box">@version.ReleaseItemsSnapshot</pre>
+                            }
+
+                        </div>
+
+                    </div>
+
+                    <!-- PRESERVED QA EVIDENCE -->
+
+                    <div class="history-section">
+
+                        <div class="history-label">
+                            Preserved QA Evidence
+                        </div>
+
+                        <div class="history-value">
+
+                            @if (string.IsNullOrWhiteSpace(version.QAEvidenceSnapshot))
+                            {
+                                <span>Not captured</span>
+                            }
+                            else
+                            {
+                                <pre class="snapshot-box">@version.QAEvidenceSnapshot</pre>
+                            }
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+        }
+    }
+
+</div>
